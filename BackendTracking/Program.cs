@@ -1,3 +1,5 @@
+using Tracking.IoC;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+DependenceInjector.Register(builder.Services, builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
