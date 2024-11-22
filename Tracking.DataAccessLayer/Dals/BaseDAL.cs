@@ -45,6 +45,11 @@ namespace Tracking.DataAccessLayer.Dals
         public virtual async Task<IList<T>> SelectAsync()
         {
             return await _dbSet.ToListAsync();
+        } 
+        public virtual async Task<T> FindAsync(Guid id)
+        {
+            //return await _dbSet.Where(x=>x.Id == id).FirstOrDefaultAsync();
+            return await _dbSet.FindAsync(id);
         }
         public void Dispose()
         {

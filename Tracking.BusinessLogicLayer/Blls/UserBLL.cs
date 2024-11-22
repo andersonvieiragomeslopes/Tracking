@@ -14,6 +14,7 @@ namespace Tracking.BusinessLogicLayer.Blls
     {
         Task<List<UserViewModel>> GetAll();
         Task<Guid> Create();
+        Task<UserViewModel> Get(Guid id);
         Task<Guid> Create(UserRecord userRecord);
     }
     public class UserBLL : IUserBLL
@@ -28,6 +29,11 @@ namespace Tracking.BusinessLogicLayer.Blls
         {
             var result = await _userDAL.GetAll();
             return result.Select(x=> new UserViewModel(x.Id, x.Name, x.CreatedAt, x.UpdatedAt)).ToList();
+        }
+        public async Task<UserViewModel> Get(Guid id)
+        {
+            var result = await _userDAL.Get(id);
+            return new UserViewModel(result.Id, result.Name, result.CreatedAt, result.UpdatedAt);
         }
         readonly string[] Names = { "Lennon", "McCartney", "Will Smith", "Harrison Ford", "Elon Musk", "Ainstein", "Bill Gates", "Edward Snowden", "Mr Robot", "FIll Collins" };
 
