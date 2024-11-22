@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracking.BusinessLogicLayer.DTOs
+namespace Shared
 {
     public class TokenDTO
     {
