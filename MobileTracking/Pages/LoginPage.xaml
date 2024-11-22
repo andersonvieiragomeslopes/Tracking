@@ -9,16 +9,13 @@
 
         <VerticalStackLayout VerticalOptions="Center">
         <Border>
-                <handlers:BorderlessEntry Placeholder="Entrar"></handlers:BorderlessEntry>
+                <handlers:BorderlessEntry Placeholder="Entrar" Text="{Binding Id}"></handlers:BorderlessEntry>
         </Border>
-        <Border>
-            <Label Text="Não tenho acesso."></Label>
-        </Border>
+                <Button Text="Criar conta" Command="{Binding LoginCommand}"/>
+
         </VerticalStackLayout>
         <VerticalStackLayout VerticalOptions="End">
-            <Border>
-                <Label Text="Entrar"></Label>
-            </Border>
+            <Button Text="Criar conta" Command="{Binding GenerateCommand}"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
