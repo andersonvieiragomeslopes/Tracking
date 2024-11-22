@@ -12,25 +12,24 @@ namespace Tracking.DataAccessLayer.Dals
     {
         Task<int> CountAsync();
         Task<IEnumerable<User>> GetAll();
+        Task<Guid> Create(User user);
     }
-    public class UserDAL : IUserDAL
+    public class UserDAL : BaseDAL<User>, IUserDAL
     {
         private readonly TrackingContext _context;
-        public UserDAL(TrackingContext context)
+        public UserDAL(TrackingContext context): base(context)
         {
             _context = context;
         }
         public async Task<int> CountAsync()
         {
-            return await _context.Users
-                .CountAsync();
+            return await CountTotalAsync();
         }
         public async Task<IEnumerable<User>> GetAll()
         {
             try
             {
-                return await _context.Users
-                    .ToListAsync();
+                return await SelectAsync();
             }
             catch (DbUpdateException error)
             {
@@ -40,6 +39,10 @@ namespace Tracking.DataAccessLayer.Dals
             {
                 throw new Exception("An error occurred.", error);
             }
+        }
+        public async Task<Guid> Create(User user)
+        {
+           return await CreateAsync(user);
         }
     }
 }

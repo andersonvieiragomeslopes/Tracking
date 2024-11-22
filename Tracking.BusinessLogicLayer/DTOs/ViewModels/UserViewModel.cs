@@ -8,8 +8,10 @@ namespace Tracking.BusinessLogicLayer.DTOs.ViewModels
 {
     public class UserViewModel : ModelBaseViewModel
     {
-        public UserViewModel(Guid id, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt)
+        public UserViewModel(Guid id, string name, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt)
         {
+            Name = name;
         }
+        public string Name { get; set; }
     }
 }
