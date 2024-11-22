@@ -5,8 +5,9 @@ using MobileTracking.ViewModels;
 using Refit;
 using Shared.Mobile;
 using Shared.Mobile.Delegates;
-using Shared.Mobile.Services;
 using CommunityToolkit.Maui;
+using Shared.Mobile.Services.Requests;
+using Shared.Mobile.Services;
 
 namespace MobileTracking;
 public static class MauiProgram
@@ -32,7 +33,14 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddScoped<HeaderTokenHandler>();
         var apiData = Constants.Api.BASE_URL;
-        mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData));
+
+        mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
+
+
+        #region Refit
+        mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)); 
+        #endregion
+
         //mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         return mauiAppBuilder;
     }

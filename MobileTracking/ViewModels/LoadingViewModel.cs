@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace MobileTracking.ViewModels
 {
-    public partial class LoginViewModel : BaseViewModel
+    public partial class LoadingViewModel
     {
-        public string Id = "";
     }
 }

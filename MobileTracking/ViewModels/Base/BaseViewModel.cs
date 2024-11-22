@@ -9,6 +9,10 @@ namespace MobileTracking
 {
     public abstract partial class BaseViewModel : ObservableObject, IQueryAttributable
     {
+        protected BaseViewModel() 
+        { 
+
+        }
         public virtual Task InitializeAsync(object navigationData)
         {
             InitializeAsync();
