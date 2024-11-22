@@ -17,7 +17,7 @@ namespace BackendTracking.Controllers
             _authBLL = authBLL;
         }
         [EnableRateLimiting("login")]
-        [HttpGet("v1/auth/login")]
+        [HttpPost("v1/auth/login")]
         public async Task<ActionResult> Login(Guid id)
         {
             try
