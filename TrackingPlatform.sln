@@ -13,6 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTracking", "WebTracking\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTracking.Client", "WebTracking\WebTracking.Client\WebTracking.Client.csproj", "{1BD3487D-C0F2-44D8-8F29-4F62653C1691}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{FD4EF7B9-FD6B-418F-B212-3EB1EF6E792E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking.DataAccessLayer", "Tracking.DataAccessLayer\Tracking.DataAccessLayer.csproj", "{C3631ADC-FB65-4DCE-AB6A-92225F40C282}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking.BusinessLogicLayer", "Tracking.BusinessLogicLayer\Tracking.BusinessLogicLayer.csproj", "{79275872-537B-4803-A05B-3F40A7769009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking.IoC", "Tracking.IoC\Tracking.IoC.csproj", "{917E5421-673B-477F-8340-72F389FD6F6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +33,7 @@ Global
 		{5701D55B-22EF-4763-B241-CDA3FF6EACF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3570A976-88E2-414C-8EE5-C17CDE6AE7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3570A976-88E2-414C-8EE5-C17CDE6AE7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3570A976-88E2-414C-8EE5-C17CDE6AE7D6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{3570A976-88E2-414C-8EE5-C17CDE6AE7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3570A976-88E2-414C-8EE5-C17CDE6AE7D6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C95F996-A05E-401C-856E-1AFDF9FCBC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,9 +48,27 @@ Global
 		{1BD3487D-C0F2-44D8-8F29-4F62653C1691}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD3487D-C0F2-44D8-8F29-4F62653C1691}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BD3487D-C0F2-44D8-8F29-4F62653C1691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3631ADC-FB65-4DCE-AB6A-92225F40C282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3631ADC-FB65-4DCE-AB6A-92225F40C282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3631ADC-FB65-4DCE-AB6A-92225F40C282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3631ADC-FB65-4DCE-AB6A-92225F40C282}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79275872-537B-4803-A05B-3F40A7769009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79275872-537B-4803-A05B-3F40A7769009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79275872-537B-4803-A05B-3F40A7769009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79275872-537B-4803-A05B-3F40A7769009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{917E5421-673B-477F-8340-72F389FD6F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{917E5421-673B-477F-8340-72F389FD6F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{917E5421-673B-477F-8340-72F389FD6F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{917E5421-673B-477F-8340-72F389FD6F6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C95F996-A05E-401C-856E-1AFDF9FCBC0E} = {FD4EF7B9-FD6B-418F-B212-3EB1EF6E792E}
+		{C3631ADC-FB65-4DCE-AB6A-92225F40C282} = {FD4EF7B9-FD6B-418F-B212-3EB1EF6E792E}
+		{79275872-537B-4803-A05B-3F40A7769009} = {FD4EF7B9-FD6B-418F-B212-3EB1EF6E792E}
+		{917E5421-673B-477F-8340-72F389FD6F6C} = {FD4EF7B9-FD6B-418F-B212-3EB1EF6E792E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E902C61F-20DB-4A3C-AE2E-04FD51319451}
