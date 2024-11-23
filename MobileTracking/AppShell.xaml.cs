@@ -11,10 +11,10 @@ public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
         InitializeComponent();
 
         AddTab(typeof(HomePage), PageType.HomePage);
-        AddTab(typeof(HomePage), PageType.OrderPage);
-        AddTab(typeof(HomePage), PageType.TrackPage);
-        AddTab(typeof(HomePage), PageType.HistoryPage);
-        AddTab(typeof(HomePage), PageType.SearchPage);
+        AddTab(typeof(OrderPage), PageType.OrderPage);
+        AddTab(typeof(TrackPage), PageType.TrackPage);
+        AddTab(typeof(HistoryPage), PageType.HistoryPage);
+        AddTab(typeof(SearchPage), PageType.SearchPage);
 
         tabBarView.SetSelection(0);
 

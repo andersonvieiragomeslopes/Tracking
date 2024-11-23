@@ -15,6 +15,11 @@ using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
 
+#if ANDROID || IOS
+using Maui.GoogleMaps.Clustering.Hosting;
+using Maui.GoogleMaps.Hosting;
+#endif
+
 namespace MobileTracking;
 public static class MauiProgram
 {
@@ -36,6 +41,14 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+#if ANDROID
+        builder.UseGoogleMaps();
+#elif IOS
+        builder.UseGoogleMaps("");
+#endif
+#if ANDROID || IOS
+        builder.UseGoogleMapsClustering();
+#endif
         return builder.Build();
     }
 
@@ -45,6 +58,9 @@ public static class MauiProgram
 
 
         mauiAppBuilder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
+        mauiAppBuilder.Services.AddSingleton(Geolocation.Default);
+
+
         mauiAppBuilder.Services.AddScoped<HeaderTokenHandler>();
         var apiData = Constants.Api.BASE_URL;
 
