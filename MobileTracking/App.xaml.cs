@@ -5,7 +5,7 @@ namespace MobileTracking;
 
 public partial class App : Application
 {
-    public App(LoginPage loginPage)
+    public App(LoadingPage loadingPage)
     {
         InitializeComponent();
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
@@ -25,7 +25,7 @@ public partial class App : Application
 #endif
             }
         });
-        MainPage = new NavigationPage(loginPage);
+        MainPage = new NavigationPage(loadingPage);
         //MainPage = new AppShell();
     }
 }

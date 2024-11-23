@@ -17,8 +17,9 @@ namespace Shared.Mobile
         }
         public static class ApiRoutes
         {
-            public const string REGENERATE_USER = "/users/generate-new-user";
+            public const string USER_REGENERATE_USER = "/users/generate-new-user";
             public const string AUTH_LOGIN = "/auth/login";
+            public const string ORDER_MY_ORDERS = "/orders/my-orders";
         }
     }
 }

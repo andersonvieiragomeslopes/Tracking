@@ -1,4 +1,5 @@
 ﻿using Refit;
+using Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Shared.Mobile.Services.Requests
     //https://www.milanjovanovic.tech/blog/refit-in-dotnet-building-robust-api-clients-in-csharp
     public interface IAuthService
     {
-        [Post(Constants.ApiRoutes.REGENERATE_USER)]
+        [Post(Constants.ApiRoutes.USER_REGENERATE_USER)]
         Task<Guid> GenerateUserAsync();
         [Post(Constants.ApiRoutes.AUTH_LOGIN)]
         Task<TokenDTO> AuthAsync(Guid id);
-    }
+    }    
 }

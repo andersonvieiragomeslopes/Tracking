@@ -5,9 +5,9 @@ using MobileTracking.ViewModels;
 using Refit;
 using Shared.Mobile;
 using Shared.Mobile.Delegates;
-using CommunityToolkit.Maui;
 using Shared.Mobile.Services.Requests;
 using Shared.Mobile.Services;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MobileTracking;
 public static class MauiProgram
@@ -18,6 +18,7 @@ public static class MauiProgram
         builder.UseMauiApp<App>()
             .RegisterAppServices()
             .RegisterAppViewModels()
+            .UseSkiaSharp()
             .ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -39,6 +40,7 @@ public static class MauiProgram
 
         #region Refit
         mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)); 
+        mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>(); 
         #endregion
 
         //mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
@@ -48,6 +50,7 @@ public static class MauiProgram
     public static MauiAppBuilder RegisterAppViewModels(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoginPage, LoginViewModel>(nameof(LoginPage));
+        mauiAppBuilder.Services.AddSingletonWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
         return mauiAppBuilder;
     }
 }
