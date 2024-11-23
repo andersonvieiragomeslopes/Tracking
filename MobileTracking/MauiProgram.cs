@@ -10,6 +10,10 @@ using Shared.Mobile.Services;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using SimpleToolkit.Core;
 using SimpleToolkit.SimpleShell;
+using MobileTracking.Services;
+using Mopups.Hosting;
+using Mopups.Interfaces;
+using Mopups.Services;
 
 namespace MobileTracking;
 public static class MauiProgram
@@ -23,6 +27,7 @@ public static class MauiProgram
             .UseSkiaSharp()
             .UseSimpleToolkit()
             .UseSimpleShell()
+            .ConfigureMopups()
             .ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -36,17 +41,27 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
     {
+        
+
+
+        mauiAppBuilder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
         mauiAppBuilder.Services.AddScoped<HeaderTokenHandler>();
         var apiData = Constants.Api.BASE_URL;
 
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
+        mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
 
 
         #region Refit
         mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)); 
-        mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>(); 
+        mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         #endregion
 
+
+        #region Service Locator
+        ServiceLocator.Configure(mauiAppBuilder.Services);
+        ServiceLocator.Instance.Init();
+        #endregion
         //mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         return mauiAppBuilder;
     }

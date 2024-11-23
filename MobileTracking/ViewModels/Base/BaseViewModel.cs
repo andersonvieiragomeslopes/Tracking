@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MobileTracking.Services;
+using Shared.Mobile.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,11 @@ namespace MobileTracking
 {
     public abstract partial class BaseViewModel : ObservableObject, IQueryAttributable
     {
-        protected BaseViewModel() 
-        { 
-
+        protected readonly INavigationService _navigationService;
+        protected readonly IApiRequestService _apiRequestService = ServiceLocator.Instance.Resolve<IApiRequestService>();
+        protected BaseViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
         }
         public virtual Task InitializeAsync(object navigationData)
         {

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using FluentValidation;
 using FluentValidation.Results;
+using MobileTracking.Services;
 using Shared.Mobile;
 using Shared.Mobile.Services;
 using System;
@@ -14,16 +15,14 @@ namespace MobileTracking.ViewModels
 {
     public partial class LoginViewModel : BaseViewModel
     {
-        private readonly IApiRequestService _apiRequestService;
 
         [ObservableProperty]
         public Guid? id = null;
         [ObservableProperty]
         private ValidationResult _validationResult = new ValidationResult();
 
-        public LoginViewModel(IApiRequestService apiRequestService)
+        public LoginViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _apiRequestService = apiRequestService;           
         }
         public override Task InitializeAsync(object navigationData)
         {

@@ -25,7 +25,7 @@ public partial class App : Application
 #endif
             }
         });
-        //MainPage = new NavigationPage(loadingPage);
-        MainPage = new AppShell();
+        MainPage = new NavigationPage(loadingPage);
+        //MainPage = new AppShell();
     }
 }
