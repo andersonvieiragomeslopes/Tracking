@@ -37,7 +37,7 @@ namespace Tracking.BusinessLogicLayer.Blls
         public async Task<List<OrderViewModel>> GetMyOrders()
         {
             var userLogged = await _authBLL.Logged();
-            var result = await _orderDAL.GetAll();
+            var result = await _orderDAL.GetOrderByUserId(userLogged.Id);
             return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Image, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).ToList();
         }
         public async Task<OrderViewModel> Get(Guid id)

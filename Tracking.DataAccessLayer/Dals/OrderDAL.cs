@@ -12,6 +12,7 @@ namespace Tracking.DataAccessLayer.Dals
     {
         Task<int> CountAsync();
         Task<IEnumerable<Order>> GetAll();
+        Task<IEnumerable<Order>> GetOrderByUserId(Guid userId);
         Task<Order> Get(Guid id);
         Task<Guid> Create(Order entity);
     }
@@ -46,6 +47,21 @@ namespace Tracking.DataAccessLayer.Dals
             try
             {
                 return await SelectAsync();
+            }
+            catch (DbUpdateException error)
+            {
+                throw new DbUpdateException(error.Message);
+            }           
+            catch (Exception error)
+            {
+                throw new Exception("An error occurred.", error);
+            }
+        }
+        public async Task<IEnumerable<Order>> GetOrderByUserId(Guid userId)
+        {
+            try
+            {
+                return await _context.Orders.Where(x=>x.UserId == userId).ToListAsync();
             }
             catch (DbUpdateException error)
             {
