@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
+<simpleShell:SimpleShell
     x:Class="MobileTracking.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MobileTracking"
+    xmlns:c="clr-namespace:MobileTracking.Pages.Controls"
     Shell.FlyoutBehavior="Disabled"
-    Title="MobileTracking">
+    xmlns:simpleShell="clr-namespace:SimpleToolkit.SimpleShell;assembly=SimpleToolkit.SimpleShell">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar x:Name="tabBar">
 
-</Shell>
+    </TabBar>
+
+    <simpleShell:SimpleShell.RootPageContainer>
+        <Grid>
+            <simpleShell:SimpleNavigationHost
+                x:Name="pageContainer"/>
+            <c:TabBarView
+                x:Name="tabBarView"
+                VerticalOptions="End" HorizontalOptions="Fill"
+                CurrentPageSelectionChanged="TabBarViewCurrentPageChanged"/>
+        </Grid>
+    </simpleShell:SimpleShell.RootPageContainer>
+
+</simpleShell:SimpleShell>

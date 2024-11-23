@@ -64,6 +64,8 @@
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0" />
+		<PackageReference Include="SimpleToolkit.Core" Version="5.0.0" />
+		<PackageReference Include="SimpleToolkit.SimpleShell" Version="4.1.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -71,6 +73,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <MauiXaml Update="Pages\Controls\TabBarLayer.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Pages\Controls\TabBarView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Pages\HomePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="Pages\LoadingPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>

@@ -8,6 +8,8 @@ using Shared.Mobile.Delegates;
 using Shared.Mobile.Services.Requests;
 using Shared.Mobile.Services;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using SimpleToolkit.Core;
+using SimpleToolkit.SimpleShell;
 
 namespace MobileTracking;
 public static class MauiProgram
@@ -19,6 +21,8 @@ public static class MauiProgram
             .RegisterAppServices()
             .RegisterAppViewModels()
             .UseSkiaSharp()
+            .UseSimpleToolkit()
+            .UseSimpleShell()
             .ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileTracking.Pages.Controls.TabBarLayer"
+             xmlns:simpleCore="clr-namespace:SimpleToolkit.Core;assembly=SimpleToolkit.Core"
+             ColumnDefinitions="*, *, *, *, *"
+             InputTransparent="True">
+
+    <Grid.Resources>
+        <Style x:Key="GridStyle" TargetType="Grid">
+        </Style>
+        <Style x:Key="IconStyle" TargetType="simpleCore:Icon">
+            <Setter Property="TintColor" Value="{Binding Color}"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="WidthRequest" Value="25"/>
+            <Setter Property="HeightRequest" Value="25"/>
+            <Setter Property="Margin" Value="0, 0, 0, 8"/>
+        </Style>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="{Binding Color}"/>
+            <Setter Property="FontFamily" Value="BoldFont"/>
+            <Setter Property="VerticalOptions" Value="End"/>
+            <Setter Property="HorizontalOptions" Value="Fill"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="LineBreakMode" Value="TailTruncation"/>
+        </Style>
+    </Grid.Resources>
+    <Grid
+        Grid.Column="0"
+        Style="{DynamicResource GridStyle}">
+        <simpleCore:Icon
+            Style="{DynamicResource IconStyle}"
+            Source="home.png"/>
+        <Label
+            Style="{DynamicResource LabelStyle}"
+            Text="Home"/>
+    </Grid>
+    <Grid
+        Grid.Column="1"
+        Style="{DynamicResource GridStyle}">
+        <simpleCore:Icon
+            Style="{DynamicResource IconStyle}"
+            Source="map.png"/>
+        <Label
+            Style="{DynamicResource LabelStyle}"
+            Text="Map"/>
+    </Grid>
+    <Grid
+        Grid.Column="2"
+        Style="{DynamicResource GridStyle}">
+        <simpleCore:Icon
+            Style="{DynamicResource IconStyle}"
+            Source="order.png"/>
+        <Label
+            Style="{DynamicResource LabelStyle}"
+            Text="Order"/>
+    </Grid>
+    <Grid
+        Grid.Column="3"
+        Style="{DynamicResource GridStyle}">
+        <simpleCore:Icon
+            Style="{DynamicResource IconStyle}"
+            Source="history.png"/>
+        <Label
+            Style="{DynamicResource LabelStyle}"
+            Text="History"/>
+    </Grid>
+    <Grid
+        Grid.Column="4"
+        Style="{DynamicResource GridStyle}">
+        <simpleCore:Icon
+            Style="{DynamicResource IconStyle}"
+            Source="search.png"/>
+        <Label
+            Style="{DynamicResource LabelStyle}"
+            Text="Search"/>
+    </Grid>
+</Grid>
