@@ -52,7 +52,7 @@ namespace MobileTracking
         }
         public void Init()
         {
-            if (_isInitialized) throw new InvalidOperationException("IoCContainer is already initialized");
+            if (_isInitialized) throw new InvalidOperationException("ServiceLocator is already initialized");
             _isInitialized = true;
         }
 
