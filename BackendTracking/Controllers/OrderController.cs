@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared.Responses;
 using System.Text.Json;
 using Tracking.BusinessLogicLayer.Blls;
+using Tracking.BusinessLogicLayer.DTOs.Records;
 
 namespace BackendTracking.Controllers
 {
@@ -20,13 +21,13 @@ namespace BackendTracking.Controllers
             _orderBLL = orderBLL;
         }
         
-        [HttpPost("v1/orders")]
+        [HttpGet("v1/orders")]
         public async Task<ActionResult> Orders()
         {
             try
             {
-                var orders = await _orderBLL.GetMyOrders();
-                return Ok();
+                var orders = await _orderBLL.GetAll();
+                return Ok(orders);
             }
             catch (KeyNotFoundException error)
             {
@@ -56,7 +57,44 @@ namespace BackendTracking.Controllers
                     error.Source
                 })));
             }
-        }        
+        }
+        [HttpPost("v1/orders")]
+        public async Task<ActionResult> Orders(OrderRecord orderRecord)
+        {
+            try
+            {
+                var order = await _orderBLL.Create(orderRecord);
+                return Ok(order);
+            }
+            catch (KeyNotFoundException error)
+            {
+                return NotFound(new Response<string>(StatusCodes.Status404NotFound,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (DbUpdateException error)
+            {
+                return UnprocessableEntity(new Response<string>(StatusCodes.Status422UnprocessableEntity,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (Exception error)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response<string>(StatusCodes.Status500InternalServerError,
+                JsonSerializer.Serialize(new
+                {
+                    error.Message,
+                    error.Source
+                })));
+            }
+        }
         [HttpPost("v1/orders/my-orders")]
         public async Task<ActionResult> MyOrders()
         {

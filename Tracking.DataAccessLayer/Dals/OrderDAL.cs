@@ -18,10 +18,8 @@ namespace Tracking.DataAccessLayer.Dals
     }
     public class OrderDAL : BaseDAL<Order>, IOrderDAL
     {
-        private readonly TrackingContext _context;
         public OrderDAL(TrackingContext context): base(context)
         {
-            _context = context;
         }
         public async Task<int> CountAsync()
         {

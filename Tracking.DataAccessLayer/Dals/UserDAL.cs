@@ -17,10 +17,8 @@ namespace Tracking.DataAccessLayer.Dals
     }
     public class UserDAL : BaseDAL<User>, IUserDAL
     {
-        private readonly TrackingContext _context;
         public UserDAL(TrackingContext context): base(context)
         {
-            _context = context;
         }
         public async Task<int> CountAsync()
         {
