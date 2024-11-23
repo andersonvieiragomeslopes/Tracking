@@ -8,6 +8,6 @@ namespace Tracking.DataAccessLayer.Entities
 {
     public class User : ModelBase
     {
-        public string Name { get; set; } = null;
+        public string Name { get; set; } = null!;
     }
 }

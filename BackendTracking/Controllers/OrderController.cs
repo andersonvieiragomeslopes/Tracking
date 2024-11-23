@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Shared.Responses;
@@ -8,17 +10,22 @@ using Tracking.BusinessLogicLayer.Blls;
 namespace BackendTracking.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/")]
     public class OrderController : ControllerBase
     {
-        public OrderController()
+        private readonly IOrderBLL _orderBLL;
+        public OrderController(IOrderBLL orderBLL)
         {
+            _orderBLL = orderBLL;
         }
+        
         [HttpPost("v1/orders")]
         public async Task<ActionResult> Orders()
         {
             try
             {
+                var orders = await _orderBLL.GetMyOrders();
                 return Ok();
             }
             catch (KeyNotFoundException error)
@@ -49,13 +56,14 @@ namespace BackendTracking.Controllers
                     error.Source
                 })));
             }
-        }
+        }        
         [HttpPost("v1/orders/my-orders")]
         public async Task<ActionResult> MyOrders()
         {
             try
             {
-                return Ok();
+                var orders = await _orderBLL.GetMyOrders();
+                return Ok(orders);
             }
             catch (KeyNotFoundException error)
             {

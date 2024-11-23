@@ -49,9 +49,12 @@ namespace Tracking.IoC
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwtKey"]!)),
                         ClockSkew = TimeSpan.Zero
                     });
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthBLL, AuthBLL>();
 
+            services.AddScoped<IOrderDAL, OrderDAL>();
+            services.AddScoped<IOrderBLL, OrderBLL>();            
+            
             services.AddScoped<IUserDAL, UserDAL>();
             services.AddScoped<IUserBLL, UserBLL>();
         }

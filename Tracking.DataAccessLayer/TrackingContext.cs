@@ -15,6 +15,7 @@ namespace Tracking.DataAccessLayer
     public class TrackingContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
         protected readonly IConfiguration Configuration;
         public TrackingContext(DbContextOptions<TrackingContext> options, IConfiguration configuration) : base(options)
         {
@@ -27,6 +28,7 @@ namespace Tracking.DataAccessLayer
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new UserEntityMapper());
+            modelBuilder.ApplyConfiguration(new OrderEntityMapper());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
