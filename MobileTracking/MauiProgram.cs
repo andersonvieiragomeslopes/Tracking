@@ -66,6 +66,7 @@ public static class MauiProgram
 
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
+        mauiAppBuilder.Services.AddSingleton<IInitalizeBackgroundService, InitalizeBackgroundService>();
 
 
         #region Refit
@@ -86,6 +87,7 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoginPage, LoginViewModel>(nameof(LoginPage));
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
+        mauiAppBuilder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
         return mauiAppBuilder;
     }
 }
