@@ -11,6 +11,6 @@ namespace Shared.Mobile.Services.Requests
     public interface IOrderService
     {
         [Post(Constants.ApiRoutes.ORDER_MY_ORDERS)]
-        Task<OrderResponse> OrdersAsync();
+        Task<List<OrderResponse>> MyOrdersAsync();
     }
 }

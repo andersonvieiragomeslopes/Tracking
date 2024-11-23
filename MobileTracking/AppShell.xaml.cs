@@ -6,6 +6,7 @@ namespace MobileTracking;
 
 public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
 {
+    public static bool Index { get; set; } = true;
     public AppShell()
     {
         InitializeComponent();
@@ -35,6 +36,7 @@ public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
 
     private void AddTab(Type page, PageType pageEnum)
     {
+        
         var tab = new Tab { Route = pageEnum.ToString(), Title = pageEnum.ToString() };
         tab.Items.Add(new ShellContent { ContentTemplate = new DataTemplate(page) });
 
@@ -43,7 +45,12 @@ public partial class AppShell : SimpleToolkit.SimpleShell.SimpleShell
 
     private void TabBarViewCurrentPageChanged(object sender, TabBarEventArgs e)
     {
-        Shell.Current.GoToAsync("///" + e.CurrentPage.ToString());
+        Index = false;
+        var navigationParameter = new Dictionary<string, object>()
+           {
+             { "Response", null }
+           };
+        Shell.Current.GoToAsync("///" + e.CurrentPage.ToString(), navigationParameter);
     }
 }
 public enum PageType
