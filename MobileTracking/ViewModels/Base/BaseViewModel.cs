@@ -13,6 +13,9 @@ namespace MobileTracking
     {
         protected readonly INavigationService _navigationService;
         protected readonly IApiRequestService _apiRequestService = ServiceLocator.Instance.Resolve<IApiRequestService>();
+
+        [ObservableProperty]
+        public string _loadingText;
         protected BaseViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
