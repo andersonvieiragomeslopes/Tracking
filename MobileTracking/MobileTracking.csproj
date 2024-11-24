@@ -56,7 +56,7 @@
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
       <Compile Include="Platforms\iOS\Entitlements.plist" />
       <Compile Include="Platforms\iOS\PrivacyInfo.xcprivacy" />
     </ItemGroup>
