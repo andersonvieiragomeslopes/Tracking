@@ -1,0 +1,62 @@
+﻿@page "/"
+@using Radzen
+@using Radzen.Blazor
+@inject IJSRuntime JSRuntime
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
+
+<script src="_content/Radzen.Blazor/js/radzen.min.js"></script>
+<link href="_content/Radzen.Blazor/css/default.css" rel="stylesheet" />
+<script src="_content/Radzen.Blazor/js/radzen.min.js"></script>
+<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+
+<div style="height: 100vh">
+
+    <RadzenGoogleMap ApiKey="AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU" MapId="15b04a333dd20cd2" @ref="map" Style="height: 100%"
+    Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
+    MapClick="OnMapClick" MarkerClick="OnMarkerClick" >
+        <Markers>
+            <RadzenGoogleMapMarker Title="London" Position=@(new GoogleMapPosition() { Lat = 51.5074, Lng = 0.1278 }) />
+
+         
+        </Markers>
+    </RadzenGoogleMap>
+</div>
+
+@code{
+    private RadzenGoogleMap map;
+    private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+    protected override Task OnInitializedAsync()
+    {
+    
+        InvokeAsync(() =>
+           {
+               var pin = new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 };
+               Points.Add(pin);
+               StateHasChanged(); // Force a re-render of the map with the updated marker
+           });
+        return base.OnInitializedAsync();
+        
+    }
+
+    private void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
+    }
+    private async Task OnMarkerClick(RadzenGoogleMapMarker marker)
+    {
+        var message = $"Latitude: {marker.Position.Lat} Longitude: {marker.Position.Lng} <b>{marker.Title}</b>";
+        var code = $@"
+        var map = Radzen['{map.UniqueID}'].instance;
+        var marker = map.markers.find(m => m.title == '{marker.Title}');
+        if(window.infoWindow) {{window.infoWindow.close();}}
+        window.infoWindow = new google.maps.InfoWindow({{content: '{message}'}});
+        setTimeout(() => window.infoWindow.open(map, marker), 200);
+        ";
+        await JSRuntime.InvokeVoidAsync("eval", code);
+    }
+}
+
