@@ -31,6 +31,7 @@ public static class MauiProgram
         builder.UseMauiApp<App>()
             .RegisterAppServices()
             .RegisterAppViewModels()
+            .RegisterServiceLocator()
             .UseSkiaSharp()
             .UseSimpleToolkit()
             .UseSimpleShell()
@@ -81,19 +82,25 @@ public static class MauiProgram
         #endregion
 
 
-        #region Service Locator
-        ServiceLocator.Configure(mauiAppBuilder.Services);
-        ServiceLocator.Instance.Init();
-        #endregion
+        
         //mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         return mauiAppBuilder;
     }
 
+    public static MauiAppBuilder RegisterServiceLocator(this MauiAppBuilder mauiAppBuilder)
+    {
+        #region Service Locator
+        ServiceLocator.Configure(mauiAppBuilder.Services);
+        ServiceLocator.Instance.Init();
+        #endregion
+        return mauiAppBuilder;
+    }
     public static MauiAppBuilder RegisterAppViewModels(this MauiAppBuilder mauiAppBuilder)
     {
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoginPage, LoginViewModel>(nameof(LoginPage));
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
         mauiAppBuilder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
+ 
         return mauiAppBuilder;
     }
 }

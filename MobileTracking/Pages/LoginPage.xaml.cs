@@ -4,9 +4,9 @@ namespace MobileTracking.Pages;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage(LoginViewModel loginViewModel)
+	public LoginPage()
 	{
 		InitializeComponent();
-		BindingContext = loginViewModel;
+		BindingContext = ServiceLocator.Instance.Resolve<LoginViewModel>();
 	}
 }

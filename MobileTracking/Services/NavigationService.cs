@@ -1,4 +1,5 @@
 ﻿using MobileTracking.Pages;
+using MobileTracking.ViewModels;
 using Mopups.Interfaces;
 using Mopups.Pages;
 using System;
@@ -44,14 +45,14 @@ namespace MobileTracking.Services
             switch (mainPages)
             {
                 case MainPages.LoginPage:
-                    //CurrentApplication.MainPage = new NavigationPage(new LoginPage());
+                    CurrentApplication.MainPage = new NavigationPage(new LoginPage());
                     break;
                 case MainPages.AppShell:
                     CurrentApplication.MainPage = new AppShell();
                     break;
-                //case MainPages.LoadingPage:
-                //    CurrentApplication.MainPage = new NavigationPage(new LoadingPage(IoCContainer.Instance.Resolve<LoadingViewModel>()));
-                 //   break;
+                case MainPages.LoadingPage:
+                    CurrentApplication.MainPage = new NavigationPage(new LoadingPage());
+                    break;
                 default:
                     break;
             }

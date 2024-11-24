@@ -14,7 +14,7 @@ namespace Shared.Mobile.Services
     {
         Task<TokenDTO> AuthAsync(Guid id);
         Task<Guid> GenerateUserAsync();
-        Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync();
+        Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore = false);
 
     }
     public class ApiRequestService : RetryPolicyService, IApiRequestService
@@ -36,10 +36,10 @@ namespace Shared.Mobile.Services
         public async Task<Guid> GenerateUserAsync() =>
             await _authService.GenerateUserAsync();        
         
-        public async Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync()
+        public async Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore)
         {
             var cacheKey = Constants.ApiRoutes.ORDER_MY_ORDERS;
-            if (_cacheService.Exists(cacheKey))
+            if (_cacheService.Exists(cacheKey) && !cacheIgnore)
             {
                 //await _ordersRepository.SaveAllAsync(response);
                 //return await _ordersRepository.GetAllAsync();

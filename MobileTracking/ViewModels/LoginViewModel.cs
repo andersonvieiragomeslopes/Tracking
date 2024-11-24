@@ -44,9 +44,13 @@ namespace MobileTracking.ViewModels
             }
 
             var response = await _apiRequestService.AuthAsync(Id.Value);
-                if(response.Token != null)
+            if (response.Token != null)
+            {
+
+
                 await SecureStorage.SetAsync(Constants.AccessToken, response.Token);
-            
+                _navigationService.NavigateMainPage(MainPages.AppShell);
+            }
 
         }
         [RelayCommand]

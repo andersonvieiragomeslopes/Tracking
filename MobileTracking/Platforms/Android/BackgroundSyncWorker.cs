@@ -49,7 +49,7 @@ namespace MobileTracking.Platforms.Android
             try
             {
                 var response = ServiceLocator.Instance.Resolve<IApiRequestService>();
-                var orders = await response.MyOrdersAsync();
+                var orders = await response.MyOrdersAsync(true);
             }
             catch (Exception ex)
             {

@@ -5,10 +5,10 @@ namespace MobileTracking.Pages;
 public partial class LoadingPage : ContentPage
 {
     LoadingViewModel vm;
-    public LoadingPage(LoadingViewModel viewModel)
+    public LoadingPage()
 	{
 		InitializeComponent();
-		BindingContext = vm = viewModel;
+		BindingContext = vm = ServiceLocator.Instance.Resolve<LoadingViewModel>();
 	}
     protected async override void OnAppearing()
     {
