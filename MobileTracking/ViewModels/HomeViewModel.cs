@@ -1,15 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Maui.GoogleMaps;
-using Maui.GoogleMaps.Bindings;
 using MobileTracking.Services;
+using Shared.Extensions;
 using Shared.Mobile.Services;
 using Shared.Responses;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MobileTracking.ViewModels
 {
@@ -53,7 +48,27 @@ namespace MobileTracking.ViewModels
                 position.FromLatitude = currentLocation.Latitude;
                 position.Fromlongitude = currentLocation.Longitude;
                 var response = await _apiRequestService.DrivingAsync(position);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var polylineCoded = response?.Content?.Routes?.FirstOrDefault();
+                    if (polylineCoded != null)
+                    {
+                        var polylineDecoded = polylineCoded.Geometry.Decode();
+                        if (polylineDecoded != null && polylineDecoded.Any())
+                        {
+                            var track = new Polyline
+                            {
+                                StrokeWidth = 5,
+                                StrokeColor = Color.FromArgb("#39C5BB"),
+                            };
+                            polylineDecoded.ForEach(p => { track.Positions.Add(new Position(p.Latitude, p.Longitude)); });
+
+                        }
+                    }
+                }
             }
         }
+
     }
 }
