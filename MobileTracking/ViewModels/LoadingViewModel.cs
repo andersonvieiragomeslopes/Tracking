@@ -20,11 +20,11 @@ namespace MobileTracking.ViewModels
 
         public async override Task InitializeAsync(object navigationData)
         {
-            //Task.Run(async () => { 
+            //Task.Run(async () => {             
             LoadingMessage = "Carregando dados do mapa...";
             await Task.Delay(3000);
             LoadingMessage = "Carregando dados do usuário...";
-            await Task.Delay(1000);
+            await ApplicationDbConnection.InitializeAsync();
             LoadingMessage = "Finalizando...";
             await Task.Delay(1000);
             var token = await SecureStorage.GetAsync(Constants.AccessToken);

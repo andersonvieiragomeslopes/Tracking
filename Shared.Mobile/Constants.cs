@@ -9,6 +9,8 @@ namespace Shared.Mobile
     public static class Constants
     {
         public const string AccessToken = "tk";
+        public static string BasePath = FileSystem.AppDataDirectory;
+        public static string DatabasePath => Path.Combine(BasePath, "database.db");
         public static class Api
         {
             public const string BASE_URL = $"https://tracking.bicicreteiro.app/{BASE_API_PREFIX}{BASE_API_VERSION}";

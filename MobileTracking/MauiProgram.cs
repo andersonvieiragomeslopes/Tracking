@@ -14,6 +14,8 @@ using MobileTracking.Services;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
+using Shared.Mobile.Repositories;
+
 
 #if ANDROID || IOS
 using Maui.GoogleMaps.Clustering.Hosting;
@@ -67,6 +69,10 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
         mauiAppBuilder.Services.AddSingleton<IInitalizeBackgroundService, InitalizeBackgroundService>();
+
+
+        mauiAppBuilder.Services.AddSingleton<IOrdersRepository, OrdersRepository>();
+        mauiAppBuilder.Services.AddSingleton<ICacheService, CacheService>();
 
 
         #region Refit

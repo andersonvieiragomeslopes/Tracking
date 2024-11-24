@@ -1,27 +1,25 @@
 ﻿using Newtonsoft.Json;
-using System.Text.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace Shared.Responses
-{    
-    public class OrderResponse : BaseResponse
+namespace Shared.Mobile.Repositories
+{
+    public class OrderRepository : BaseRepository
     {
-        [JsonProperty("userId")]
         public Guid UserId { get; set; }
 
-        [JsonProperty("title")]
         public string? Title { get; set; }
 
-        [JsonProperty("image")]
         public string? Image { get; set; }
 
-        [JsonProperty("description")]
         public string? Description { get; set; }
 
-        [JsonProperty("latitude")]
         public double Latitude { get; set; }
 
-        [JsonProperty("longitude")]
         public double Longitude { get; set; }
     }
 }
