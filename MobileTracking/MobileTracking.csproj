@@ -60,6 +60,7 @@
         <PackageReference Include="CHGX6.Maui.GoogleMaps.Bindings" Version="1.0.3" />
         <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="Controls.UserDialogs.Maui" Version="1.7.0" />
         <PackageReference Include="FluentValidation" Version="11.11.0" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />

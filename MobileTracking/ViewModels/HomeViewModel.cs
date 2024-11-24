@@ -86,14 +86,17 @@ namespace MobileTracking.ViewModels
         [RelayCommand]
         public async Task GetRoute(Pin pin)
         {
+            IsBusy = true;
             var position = new PositionResponse();
             position.ToLatitude = pin.Position.Latitude;
             position.Tolongitude = pin.Position.Longitude;
+            LoadingText = "Buscando sua localização atual..";
             var currentLocation = await _locationService.GetLocationAsync();
             if (currentLocation != null)
             {
                 position.FromLatitude = currentLocation.Latitude;
                 position.Fromlongitude = currentLocation.Longitude;
+                LoadingText = "Buscando seu destino..";
                 var response = await _apiRequestService.DrivingAsync(position);
 
                 if (response.IsSuccessStatusCode)
@@ -112,45 +115,53 @@ namespace MobileTracking.ViewModels
                             polylineDecoded.ForEach(p => { track.Positions.Add(new Position(p.Latitude, p.Longitude)); });
                             Polylines.Add(track);
 
-                            LoadingText = "Endereço encontrado..";
+                            LoadingText = "Destino encontrado..";
                             await Task.Delay(3000);
                             await AnimateRoute();
                         }
                     }
                 }
             }
+            IsBusy = false;
         }
         private async Task AnimateRoute()
         {
-            var startPosition = Polylines.FirstOrDefault().Positions.FirstOrDefault();
-            var endPosition = Polylines.FirstOrDefault().Positions.LastOrDefault();
+            try
+            {
+                var startPosition = Polylines.FirstOrDefault().Positions.FirstOrDefault();
+                var endPosition = Polylines.FirstOrDefault().Positions.LastOrDefault();
 
-            var cameraUpdate = CameraUpdateFactory.NewPositionZoom(startPosition, 15);
-            LoadingText = "Validando a rota..";
-            await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
+                var cameraUpdate = CameraUpdateFactory.NewPositionZoom(startPosition, 15);
+                LoadingText = "Validando a rota..";
+                await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
 
-            var bounds = GetBoundsForPositions(Polylines.FirstOrDefault().Positions.ToList());
+                var bounds = GetBoundsForPositions(Polylines.FirstOrDefault().Positions.ToList());
 
-            cameraUpdate = CameraUpdateFactory.NewBounds(bounds, 150);
-            LoadingText = "Verificando distancia..";
-            await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
+                cameraUpdate = CameraUpdateFactory.NewBounds(bounds, 150);
+                LoadingText = "Verificando distancia..";
+                await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
 
-            await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewPositionZoom(endPosition, 15), TimeSpan.FromSeconds(2));
-            LoadingText = "Verificando trajeto..";
-            cameraUpdate = CameraUpdateFactory.NewBounds(bounds, 150);
+                await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewPositionZoom(endPosition, 15), TimeSpan.FromSeconds(2));
+                LoadingText = "Verificando trajeto..";
+                cameraUpdate = CameraUpdateFactory.NewBounds(bounds, 150);
 
-            await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
-            LoadingText = "Tudo certo, boa viagem.";
-            await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewPositionZoom(startPosition, 40), TimeSpan.FromSeconds(2));
+                await AnimateCameraRequest.AnimateCamera(cameraUpdate, TimeSpan.FromSeconds(3));
+                LoadingText = "Tudo certo, boa viagem.";
+                await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewPositionZoom(startPosition, 40), TimeSpan.FromSeconds(2));
 
-            double angle = GetAngle(startPosition, endPosition);
-            var cameraPosition = new CameraPosition(
-                startPosition,
-                60,
-                angle,
-                0
-                );
-            await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewCameraPosition(cameraPosition), TimeSpan.FromSeconds(2));
+                double angle = GetAngle(startPosition, endPosition);
+                var cameraPosition = new CameraPosition(
+                    startPosition,
+                    60,
+                    angle,
+                    0
+                    );
+                await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewCameraPosition(cameraPosition), TimeSpan.FromSeconds(2));
+            }
+            catch (Exception ex)//prevenir possíveis crashs na animação
+            {                
+                IsBusy = false;
+            }
 
         }
         private double GetAngle(Position start, Position end)
