@@ -37,14 +37,14 @@ namespace MobileTracking.Services
                 .Build();
             var workRequest = new PeriodicWorkRequest.Builder(
                typeof(BackgroundSyncWorker),
-               TimeSpan.FromMinutes(16))
+               TimeSpan.FromHours(5))
                .AddTag(BackgroundSyncWorker.TAG)
                .SetConstraints(constraints)
                .Build();
          
             WorkManager.GetInstance(Platform.AppContext).EnqueueUniquePeriodicWork(
                 BackgroundSyncWorker.TAG,
-                ExistingPeriodicWorkPolicy.Replace,
+                ExistingPeriodicWorkPolicy.Keep,
                 workRequest);
 #elif IOS
            const string TaskId = "com.companyname.mobiletracking";

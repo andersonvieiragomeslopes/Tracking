@@ -22,12 +22,12 @@ namespace MobileTracking.ViewModels
         public async override Task InitializeAsync(object navigationData)
         {
             _initalizeBackgroundService.StartSyncOrders();
-            foreach (var pin in await _apiRequestService.MyOrdersAsync()) 
+            var response = await _apiRequestService.MyOrdersAsync();
+            if(response.IsSuccessStatusCode)
+            foreach (var pin in response.Content) 
             {
-                if(Pins != null) 
                 Pins.Add(new Pin() { Label = pin.Title, Address = pin.Title, Position = new Position(pin.Latitude, pin.Longitude)});
             }
-
         }
     }
 }

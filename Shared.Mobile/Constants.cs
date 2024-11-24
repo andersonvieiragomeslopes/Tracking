@@ -17,6 +17,14 @@ namespace Shared.Mobile
             public const string BASE_API_PREFIX = "api/";
             public const string BASE_API_VERSION = "v1";
         }
+        public static class Policy
+        {
+
+            public const int MAX_RETRY = 3;
+            public const int MAX_REFRESH= 2;
+
+        }
+
         public static class ApiRoutes
         {
             public const string USER_REGENERATE_USER = "/users/generate-new-user";
