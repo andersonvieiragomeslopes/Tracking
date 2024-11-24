@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Tracking.BusinessLogicLayer.Blls;
+using Tracking.BusinessLogicLayer.Services;
 using Tracking.DataAccessLayer;
 using Tracking.DataAccessLayer.Dals;
 
@@ -37,7 +38,10 @@ namespace Tracking.IoC
                 rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });
 
-
+            services.AddHttpClient<IDrivingService, DrivingService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["osrmApi"]);
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
