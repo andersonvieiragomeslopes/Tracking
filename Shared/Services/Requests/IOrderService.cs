@@ -12,5 +12,7 @@ namespace Shared.Mobile.Services.Requests
     {
         [Post(ApiConstants.ApiRoutes.ORDER_MY_ORDERS)]
         Task<ApiResponse<List<OrderResponse>>> MyOrdersAsync();
+        [Get(ApiConstants.ApiRoutes.ORDERS)]
+        Task<ApiResponse<List<OrderResponse>>> OrdersAsync();
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Refit;
 using Shared.Mobile.Services.Requests;
+using Web.Tracking.Services.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddRadzenComponents();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddTransient<AuthTokenHandler>();
 var url = new Uri(builder.Configuration["BackendUrl"]!);
 builder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = url);
+builder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = url).AddHttpMessageHandler<AuthTokenHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

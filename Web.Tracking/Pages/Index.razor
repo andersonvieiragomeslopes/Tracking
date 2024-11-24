@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using Radzen
 @using Radzen.Blazor
+
+@inject IOrderService orders;
 @inject IJSRuntime JSRuntime
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
 
@@ -15,34 +17,142 @@
     Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
     MapClick="OnMapClick" MarkerClick="OnMarkerClick" >
         <Markers>
-            <RadzenGoogleMapMarker Title="London" Position=@(new GoogleMapPosition() { Lat = 51.5074, Lng = 0.1278 }) />
-
-         
+            @if(!isLoading)
+            @foreach (var order in OrderResponses)
+            {
+                <RadzenGoogleMapMarker Title="@order.Title"
+                                       Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
+                                       MarkerClick="OnMarkerClick" />
+            }
         </Markers>
     </RadzenGoogleMap>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Titulo</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (isLoading)
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+
+                                @foreach (var order in OrderResponses)
+                                {
+
+                                    <tr class="crm-contact">
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div>
+                                                    @order.Id
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @order.Title
+                                        </td>
+                                        <td>
+                                            <div class="btn-list">
+                                                <button class="btn btn-sm btn-info-light btn-icon"><i class="ri-pencil-line"></i></button>
+                                                <button class="btn btn-sm btn-danger-light btn-icon contact-delete"><i class="ri-delete-bin-line"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>            
+        </div>
+    </div>
 </div>
 
 @code{
     private RadzenGoogleMap map;
     private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    private List<OrderResponse> OrderResponses;
+    private bool isLoading = true;
+
+    protected async override Task OnInitializedAsync()
     {
-        return base.OnAfterRenderAsync(firstRender);
+
+
     }
-    protected override Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-    
-        InvokeAsync(() =>
-           {
-               var pin = new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 };
-               Points.Add(pin);
-               StateHasChanged(); // Force a re-render of the map with the updated marker
-           });
-        return base.OnInitializedAsync();
-        
+        if (firstRender)
+        {
+            await LoadOrders();
+        }
     }
 
-    private void OnMapClick(GoogleMapClickEventArgs args)
+    public async Task LoadOrders()
+    {
+        var response = await orders.OrdersAsync();
+        if (response.IsSuccessStatusCode)
+        {
+            OrderResponses = response?.Content;
+            isLoading = false;
+            StateHasChanged();
+        }
+
+    }
+    private async void OnMapClick(GoogleMapClickEventArgs args)
     {
         Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
     }
