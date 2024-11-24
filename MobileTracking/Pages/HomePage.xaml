@@ -14,6 +14,7 @@
                            ItemsSource="{Binding Pins}">
             <maps:Map.Behaviors>
                 <MapsBehavior:BindingPinsBehavior Value="{Binding Pins}" />
+                <MapsBehavior:PinClickedToCommandBehavior Command="{Binding PinClickedToCommand}" />
             </maps:Map.Behaviors>
 
         </maps:Map>

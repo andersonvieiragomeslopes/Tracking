@@ -18,11 +18,15 @@ namespace MobileTracking.ViewModels
 
         [ObservableProperty]
         public Guid? id = null;
+        //DEBUG
         [ObservableProperty]
         private ValidationResult _validationResult = new ValidationResult();
 
         public LoginViewModel(INavigationService navigationService) : base(navigationService)
         {
+#if DEBUG
+            Id = Guid.Parse("d36d3758-8cb8-440c-a68a-5170e9d555c4");
+#endif
         }
         public override Task InitializeAsync(object navigationData)
         {
@@ -46,8 +50,6 @@ namespace MobileTracking.ViewModels
             var response = await _apiRequestService.AuthAsync(Id.Value);
             if (response.Token != null)
             {
-
-
                 await SecureStorage.SetAsync(Constants.AccessToken, response.Token);
                 _navigationService.NavigateMainPage(MainPages.AppShell);
             }
@@ -56,8 +58,6 @@ namespace MobileTracking.ViewModels
         [RelayCommand]
         public async Task Generate()
         {
-          
-
             Id = await _apiRequestService.GenerateUserAsync();
         }
         //https://medium.com/@chausse.nicolas/input-validation-in-net-maui-with-fluentvalidation-and-syncfusion-toolkit-ab8e7fc05e2d

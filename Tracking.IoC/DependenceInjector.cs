@@ -38,6 +38,7 @@ namespace Tracking.IoC
                 rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });
 
+            //https://learn.microsoft.com/pt-br/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
             services.AddHttpClient<IDrivingService, DrivingService>(client =>
             {
                 client.BaseAddress = new Uri(configuration["osrmApi"]);

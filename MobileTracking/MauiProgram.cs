@@ -69,6 +69,7 @@ public static class MauiProgram
 
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
+        mauiAppBuilder.Services.AddSingleton<ILocationService, LocationService>();
         mauiAppBuilder.Services.AddSingleton<IInitalizeBackgroundService, InitalizeBackgroundService>();
 
 
@@ -79,6 +80,7 @@ public static class MauiProgram
         #region Refit
         mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)); 
         mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
+        mauiAppBuilder.Services.AddRefitClient<IDrivingService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         #endregion
 
 
