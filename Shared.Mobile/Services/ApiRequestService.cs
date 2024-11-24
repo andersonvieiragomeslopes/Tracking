@@ -41,7 +41,7 @@ namespace Shared.Mobile.Services
         
         public async Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore)
         {
-            var cacheKey = Constants.ApiRoutes.ORDER_MY_ORDERS;
+            var cacheKey = ApiConstants.ApiRoutes.ORDER_MY_ORDERS;
             if (_cacheService.Exists(cacheKey) && !cacheIgnore)
             {
                 //await _ordersRepository.SaveAllAsync(response);

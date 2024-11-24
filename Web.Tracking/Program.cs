@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
-using Web.Tracking.Data;
+using Refit;
+using Shared.Mobile.Services.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddRadzenComponents();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-
+var url = new Uri(builder.Configuration["BackendUrl"]!);
+builder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = url);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
