@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Shared.Models.DTOs.Records;
 using Shared.Responses;
 using System.Text.Json;
 using Tracking.BusinessLogicLayer.Blls;
-using Tracking.BusinessLogicLayer.DTOs.Records;
 
 namespace BackendTracking.Controllers
 {

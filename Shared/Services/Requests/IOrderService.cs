@@ -1,4 +1,5 @@
 ﻿using Refit;
+using Shared.Models.DTOs.Records;
 using Shared.Responses;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace Shared.Mobile.Services.Requests
         Task<ApiResponse<List<OrderResponse>>> MyOrdersAsync();
         [Get(ApiConstants.ApiRoutes.ORDERS)]
         Task<ApiResponse<List<OrderResponse>>> OrdersAsync();
+        [Post(ApiConstants.ApiRoutes.ORDERS)]
+        Task<ApiResponse<Guid>> CreateOrderAsync(OrderRecord orderRecord);
     }
 }

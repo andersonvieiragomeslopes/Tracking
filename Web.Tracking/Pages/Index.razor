@@ -14,19 +14,78 @@
 <div style="height: 50vh">
 
     <RadzenGoogleMap ApiKey="AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU" MapId="15b04a333dd20cd2" @ref="map" Style="height: 100%"
-    Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
-    MapClick="OnMapClick" MarkerClick="OnMarkerClick" >
+                     Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
+                     MapClick="OnMapClick" MarkerClick="OnMarkerClick">
         <Markers>
-            @if(!isLoading)
-            @foreach (var order in OrderResponses)
-            {
-                <RadzenGoogleMapMarker Title="@order.Title"
-                                       Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
-                                       MarkerClick="OnMarkerClick" />
-            }
+            @if (!isLoading)
+                @foreach (var order in OrderResponses)
+                {
+                    <RadzenGoogleMapMarker Title="@order.Title"
+                                           Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
+                                           MarkerClick="OnMarkerClick" />
+                }
         </Markers>
     </RadzenGoogleMap>
 </div>
+
+<!-- Start:: row-6 -->
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Titulo</label>
+            <input type="text" class="form-control" placeholder="Titulo"
+                   aria-label="Titulo">
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Descrição</label>
+            <input type="text" class="form-control" placeholder="Descrição"
+                   aria-label="Descrição">
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Image</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Image"
+                           aria-label="Image">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">UserId</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="UserId"
+                           aria-label="UserId">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Longitude</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Longitude"
+                           aria-label="Longitude">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Latitude</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Latitude"
+                           aria-label="Latitude">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Criar</button>
+    </div>
+</div>
+
+
+
 
 <div class="row">
     <div class="col-xl-12">
@@ -117,12 +176,12 @@
                         </tbody>
                     </table>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
 
-@code{
+@code {
     private RadzenGoogleMap map;
     private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
     private List<OrderResponse> OrderResponses;
