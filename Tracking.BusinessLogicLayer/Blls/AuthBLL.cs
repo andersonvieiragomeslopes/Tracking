@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shared;
+using Shared.Models.DTOs.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,8 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Tracking.BusinessLogicLayer.DTOs;
-using Tracking.BusinessLogicLayer.DTOs.ViewModels;
+
 using Tracking.DataAccessLayer.Entities;
 
 namespace Tracking.BusinessLogicLayer.Blls

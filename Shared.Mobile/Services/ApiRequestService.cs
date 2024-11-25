@@ -15,6 +15,8 @@ namespace Shared.Mobile.Services
         Task<TokenDTO> AuthAsync(Guid id);
         Task<Guid> GenerateUserAsync();
         Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore = false);
+        Task<ApiRequestResponse<OrderResponse>> GetOrderAsync(Guid orderId);
+        Task<ApiRequestResponse<RouteResponse>> DrivingAsync(PositionResponse positionResponse);
 
     }
     public class ApiRequestService : RetryPolicyService, IApiRequestService
@@ -23,13 +25,15 @@ namespace Shared.Mobile.Services
         private readonly IOrdersRepository _ordersRepository;
         private readonly IOrderService _orderService;
         private readonly IAuthService _authService;
+        private readonly IDrivingService _drivingService;
         private readonly ICacheService _cacheService;
-        public ApiRequestService(IAuthService authService, IOrderService orderService, IOrdersRepository ordersRepository, ICacheService cacheService)
+        public ApiRequestService(IAuthService authService, IOrderService orderService, IOrdersRepository ordersRepository, ICacheService cacheService, IDrivingService drivingService)
         {
             _authService = authService;
             _orderService = orderService;
             _ordersRepository = ordersRepository;
             _cacheService = cacheService;
+            _drivingService = drivingService;
         }
         public async Task<TokenDTO> AuthAsync(Guid id) =>
             await _authService.AuthAsync(id);        
@@ -38,7 +42,7 @@ namespace Shared.Mobile.Services
         
         public async Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore)
         {
-            var cacheKey = Constants.ApiRoutes.ORDER_MY_ORDERS;
+            var cacheKey = ApiConstants.ApiRoutes.ORDER_MY_ORDERS;
             if (_cacheService.Exists(cacheKey) && !cacheIgnore)
             {
                 //await _ordersRepository.SaveAllAsync(response);
@@ -51,6 +55,22 @@ namespace Shared.Mobile.Services
                 if (response.IsSuccessStatusCode)
                     _cacheService.Set(cacheKey, response.Content, GeneralCacheHours);
                 return new ApiRequestResponse<IEnumerable<OrderResponse>>(response.IsSuccessStatusCode, response?.Content);
+            });
+        }
+        public async Task<ApiRequestResponse<OrderResponse>> GetOrderAsync(Guid orderId)
+        {
+            return await RequestWithPolicy(async () =>
+            {
+                var response = await _orderService.GetOrderAsync(orderId);               
+                return new ApiRequestResponse<OrderResponse>(response.IsSuccessStatusCode, response?.Content);
+            });
+        }
+        public async Task<ApiRequestResponse<RouteResponse>> DrivingAsync(PositionResponse positionResponse)
+        {            
+            return await RequestWithPolicy(async () =>
+            {
+                var response = await _drivingService.DrivingAsync(positionResponse);
+                return new ApiRequestResponse<RouteResponse>(response.IsSuccessStatusCode, response.Content);
             });
         }
     }

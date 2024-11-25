@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Shared.Models.DTOs.Records;
+using Shared.Models.DTOs.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tracking.BusinessLogicLayer.DTOs.Records;
-using Tracking.BusinessLogicLayer.DTOs.ViewModels;
 using Tracking.DataAccessLayer.Dals;
 using Tracking.DataAccessLayer.Entities;
 

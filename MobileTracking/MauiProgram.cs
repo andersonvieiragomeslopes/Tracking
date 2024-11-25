@@ -15,6 +15,10 @@ using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
 using Shared.Mobile.Repositories;
+using Controls.UserDialogs.Maui;
+using Shared.SharedHubs;
+
+
 
 
 #if ANDROID || IOS
@@ -32,6 +36,7 @@ public static class MauiProgram
             .RegisterAppServices()
             .RegisterAppViewModels()
             .RegisterServiceLocator()
+            .UseUserDialogs()
             .UseSkiaSharp()
             .UseSimpleToolkit()
             .UseSimpleShell()
@@ -56,19 +61,19 @@ public static class MauiProgram
     }
 
     public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
-    {
-        
-
-
+    {        
         mauiAppBuilder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
         mauiAppBuilder.Services.AddSingleton(Geolocation.Default);
-
+        mauiAppBuilder.Services.AddSingleton<IUserDialogs>(s => UserDialogs.Instance);
 
         mauiAppBuilder.Services.AddScoped<HeaderTokenHandler>();
         var apiData = Constants.Api.BASE_URL;
 
+        mauiAppBuilder.Services.AddSingleton<ISharedOrderHub, SharedOrderHub>();
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
+        mauiAppBuilder.Services.AddSingleton<ILocationService, LocationService>();
+        mauiAppBuilder.Services.AddSingleton<IActivityIndicatorService, ActivityIndicatorService>();
         mauiAppBuilder.Services.AddSingleton<IInitalizeBackgroundService, InitalizeBackgroundService>();
 
 
@@ -79,6 +84,7 @@ public static class MauiProgram
         #region Refit
         mauiAppBuilder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)); 
         mauiAppBuilder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
+        mauiAppBuilder.Services.AddRefitClient<IDrivingService>().ConfigureHttpClient(c => c.BaseAddress = new Uri(apiData)).AddHttpMessageHandler<HeaderTokenHandler>();
         #endregion
 
 
@@ -97,7 +103,7 @@ public static class MauiProgram
     }
     public static MauiAppBuilder RegisterAppViewModels(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddSingletonWithShellRoute<LoginPage, LoginViewModel>(nameof(LoginPage));
+        mauiAppBuilder.Services.AddTransientWithShellRoute<LoginPage, LoginViewModel>(nameof(LoginPage));
         mauiAppBuilder.Services.AddSingletonWithShellRoute<LoadingPage, LoadingViewModel>(nameof(LoadingPage));
         mauiAppBuilder.Services.AddSingletonWithShellRoute<HomePage, HomeViewModel>(nameof(HomePage));
  

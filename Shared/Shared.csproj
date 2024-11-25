@@ -7,11 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Models\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
+				<PackageReference Include="Refit" Version="8.0.0" />
+		<PackageReference Include="Refit" Version="8.0.0" />
+<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
+	</ItemGroup>
 
 </Project>

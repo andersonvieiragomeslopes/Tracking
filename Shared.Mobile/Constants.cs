@@ -9,6 +9,7 @@ namespace Shared.Mobile
     public static class Constants
     {
         public const string AccessToken = "tk";
+        public const string Id = "id";
         public static string BasePath = FileSystem.AppDataDirectory;
         public static string DatabasePath => Path.Combine(BasePath, "database.db");
         public static class Api
@@ -23,13 +24,6 @@ namespace Shared.Mobile
             public const int MAX_RETRY = 3;
             public const int MAX_REFRESH= 2;
 
-        }
-
-        public static class ApiRoutes
-        {
-            public const string USER_REGENERATE_USER = "/users/generate-new-user";
-            public const string AUTH_LOGIN = "/auth/login";
-            public const string ORDER_MY_ORDERS = "/orders/my-orders";
         }
     }
 }

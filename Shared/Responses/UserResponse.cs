@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Responses
 {
-    public class UserResponse
+    public class UserResponse : BaseResponse
     {
-        //public Guid Id { get; set; }
     }
 }

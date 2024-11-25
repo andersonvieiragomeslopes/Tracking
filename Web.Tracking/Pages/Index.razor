@@ -1,0 +1,290 @@
+﻿@page "/"
+@using Radzen
+@using Radzen.Blazor
+@using global::Shared.Models.DTOs.Records
+@using global::Shared.Models.DTOs.ViewModels
+@using global::Shared.Services.Requests
+@using global::Shared.SharedHubs
+
+@inject IOrderService orders;
+@inject IUserService users;
+@inject IAddressService address;
+@inject ISharedOrderHub orderHub;
+@inject IJSRuntime JSRuntime
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
+
+<script src="_content/Radzen.Blazor/js/radzen.min.js"></script>
+<link href="_content/Radzen.Blazor/css/default.css" rel="stylesheet" />
+<script src="_content/Radzen.Blazor/js/radzen.min.js"></script>
+<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+
+<div style="height: 50vh">
+
+    <RadzenGoogleMap ApiKey="AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU" MapId="15b04a333dd20cd2" @ref="map" Style="height: 100%"
+    Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
+    MapClick="OnMapClick" MarkerClick="OnMarkerClick">
+        <Markers>
+            @if (!isLoading)
+                @foreach (var order in OrderResponses)
+                {
+                    <RadzenGoogleMapMarker Title="@order.Title"
+                    Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
+                    MarkerClick="OnMarkerClick" />
+                }
+        </Markers>
+    </RadzenGoogleMap>
+</div>
+
+<!-- Start:: row-6 -->
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Titulo</label>
+            <input type="text" class="form-control" placeholder="Titulo"
+            aria-label="Titulo" @bind="orderRecord.Title">
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Descrição</label>
+            <input type="text" class="form-control" placeholder="Descrição"
+            aria-label="Descrição" @bind="orderRecord.Description">
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Endereço</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Endereço"
+                    aria-label="Image" @bind="orderRecord.Image">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">UserId</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <select class="form-select" @bind="orderRecord.UserId">
+                        <option selected value="null">
+                            Select User
+                        </option>
+                        @if (userResponses != null)
+                        {
+                            @foreach (var user in userResponses)
+                            {
+                                <option value="@user.Id">@user.Id</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Longitude</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Longitude"
+                    aria-label="Longitude" @bind="orderRecord.Longitude">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Latitude</label>
+            <div class="row">
+                <div class="col-xl-12 mb-2">
+                    <input type="text" class="form-control" placeholder="Latitude"
+                    aria-label="Latitude" @bind="orderRecord.Latitude">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary" @onclick='CreateOrderAsync'>Criar</button>
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Titulo</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (isLoading)
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-12"></span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+
+                                @foreach (var order in OrderResponses)
+                                {
+
+                                    <tr class="crm-contact">
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div>
+                                                    @order.Id
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @order.Title
+                                        </td>
+                                        <td>
+                                            <div class="btn-list">
+                                                <button class="btn btn-sm btn-info-light btn-icon"><i class="ri-pencil-line"></i></button>
+                                                <button class="btn btn-sm btn-danger-light btn-icon contact-delete"><i class="ri-delete-bin-line"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RadzenGoogleMap map;
+    private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
+    private List<OrderResponse> OrderResponses = new List<OrderResponse>();
+    private List<UserResponse> userResponses = new List<UserResponse>();
+    private OrderRecord orderRecord = new OrderRecord();
+    private bool isLoading = true;
+    private bool isBusy = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Parallel.Invoke
+            (
+              async () => await LoadOrdersAsync(),
+              async () => await orderHub.StartAsync(),
+              async () => await LoadUsersAsync()
+            );
+        }
+    }
+    public async Task LoadUsersAsync()
+    {
+        var response = await users.UsersAsync();
+        if(response.IsSuccessStatusCode)
+        {
+            userResponses = response?.Content;
+
+        }
+    }
+    public async Task CreateOrderAsync()
+    {
+        var response = await orders.CreateOrderAsync(orderRecord);
+        if (response.IsSuccessStatusCode)
+        {
+            await InvokeAsync(async () => { await LoadOrdersAsync(); StateHasChanged(); });
+
+
+
+        }
+    }
+    public async Task LoadOrdersAsync()
+    {
+        var response = await orders.OrdersAsync();
+        if (response.IsSuccessStatusCode)
+        {
+            OrderResponses = response?.Content;
+            isLoading = false;
+            StateHasChanged();
+        }
+
+    }
+    private async void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        if (isBusy)
+            return;
+        isBusy = true;
+        orderRecord.Latitude = args.Position.Lat;
+        orderRecord.Longitude = args.Position.Lng;
+        var response = await address.AddressAsync(args.Position.Lat, args.Position.Lng);
+        if(response.IsSuccessStatusCode)
+        {
+            var ad = response?.Content;
+            orderRecord.Title = ad.Name;            
+            orderRecord.Description = ad.DisplayName;            
+            orderRecord.Image = ad.Address.Road; 
+            StateHasChanged();
+        }
+        Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
+        isBusy = false;
+    }
+    private async Task OnMarkerClick(RadzenGoogleMapMarker marker)
+    {
+        var message = $"Latitude: {marker.Position.Lat} Longitude: {marker.Position.Lng} <b>{marker.Title}</b>";
+        var code = $@"
+        var map = Radzen['{map.UniqueID}'].instance;
+        var marker = map.markers.find(m => m.title == '{marker.Title}');
+        if(window.infoWindow) {{window.infoWindow.close();}}
+        window.infoWindow = new google.maps.InfoWindow({{content: '{message}'}});
+        setTimeout(() => window.infoWindow.open(map, marker), 200);
+        ";
+        await JSRuntime.InvokeVoidAsync("eval", code);
+    }
+}
+

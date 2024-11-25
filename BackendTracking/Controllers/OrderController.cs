@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Shared.Models.DTOs.Records;
 using Shared.Responses;
 using System.Text.Json;
 using Tracking.BusinessLogicLayer.Blls;
-using Tracking.BusinessLogicLayer.DTOs.Records;
 
 namespace BackendTracking.Controllers
 {
@@ -27,6 +27,43 @@ namespace BackendTracking.Controllers
             try
             {
                 var orders = await _orderBLL.GetAll();
+                return Ok(orders);
+            }
+            catch (KeyNotFoundException error)
+            {
+                return NotFound(new Response<string>(StatusCodes.Status404NotFound,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (DbUpdateException error)
+            {
+                return UnprocessableEntity(new Response<string>(StatusCodes.Status422UnprocessableEntity,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (Exception error)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response<string>(StatusCodes.Status500InternalServerError,
+                JsonSerializer.Serialize(new
+                {
+                    error.Message,
+                    error.Source
+                })));
+            }
+        }
+        [HttpGet("v1/orders/{id}")]
+        public async Task<ActionResult> GetOrder(Guid id)
+        {
+            try
+            {
+                var orders = await _orderBLL.Get(id);
                 return Ok(orders);
             }
             catch (KeyNotFoundException error)

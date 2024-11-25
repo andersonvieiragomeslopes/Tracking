@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Tracking.BusinessLogicLayer.Blls;
+using Tracking.BusinessLogicLayer.Hubs;
+using Tracking.BusinessLogicLayer.Services;
 using Tracking.DataAccessLayer;
 using Tracking.DataAccessLayer.Dals;
 
@@ -22,7 +24,7 @@ namespace Tracking.IoC
         public static void Register(IServiceCollection services, IConfigurationManager configuration)
         {
             services.AddDbContext<TrackingContext>();
-
+            services.AddSignalR();
             //https://www.milanjovanovic.tech/blog/how-to-use-rate-limiting-in-aspnet-core
 
             services.AddRateLimiter(rateLimiterOptions =>
@@ -37,7 +39,15 @@ namespace Tracking.IoC
                 rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             });
 
-
+            //https://learn.microsoft.com/pt-br/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
+            services.AddHttpClient<IDrivingService, DrivingService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["osrmApi"]);
+            }); 
+            services.AddHttpClient<ISearchAddressService, SearchAddressService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["addressApi"]);
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
@@ -50,6 +60,7 @@ namespace Tracking.IoC
                         ClockSkew = TimeSpan.Zero
                     });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<OrderHub>();
             services.AddScoped<IAuthBLL, AuthBLL>();
 
             services.AddScoped<IOrderDAL, OrderDAL>();

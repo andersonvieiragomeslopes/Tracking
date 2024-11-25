@@ -6,6 +6,7 @@
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"
+            x:Name="UserId"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>
