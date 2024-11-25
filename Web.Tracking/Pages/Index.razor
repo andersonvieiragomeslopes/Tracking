@@ -5,7 +5,7 @@
 @using global::Shared.Models.DTOs.ViewModels
 @using global::Shared.Services.Requests
 @using global::Shared.SharedHubs
-
+@inject NavigationManager UriHelper;
 @inject IOrderService orders;
 @inject IUserService users;
 @inject IAddressService address;
@@ -210,6 +210,11 @@
     protected async override Task OnInitializedAsync()
     {
 
+    }
+    private async void DetectNavigation(object sender, LocationChangedEventArgs e)
+    {
+        UriHelper.LocationChanged -= DetectNavigation;
+        await orderHub.StopAsync();
 
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -222,6 +227,8 @@
               async () => await orderHub.StartAsync(),
               async () => await LoadUsersAsync()
             );
+            UriHelper.LocationChanged += DetectNavigation;
+
         }
     }
     public async Task LoadUsersAsync()

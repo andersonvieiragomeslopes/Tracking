@@ -17,6 +17,9 @@ namespace Shared
             public const string DRIVING = "/driving";
             public const string USERS = "/users";
             public const string ADDRESS = "/address";
-        }
+        }           
+        public const string JTW_DEBUG = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZGRjNmNmZDYtN2JlNi00MDFkLWI5YzEtMjYxMGE0OGMwZGY2IiwiZXhwIjoxNzM1MTQ4Mzg4fQ.ywCmvfcNPqidddsnfpKTiuWmIhk73nUlSENf1sA0m50";
+        //public const string JTW_DEBUG = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiOWQyMWZhYTItMjg3MC00NTNiLWIzM2UtYWRkZDcwNGRhZGVhIiwiZXhwIjoxNzM1MDc0Mjg3fQ.pFnh9YwiNjSm80fgPUpRXcuSjjSk4EysEu9FfirTEcQ";
+
     }
 }

@@ -31,14 +31,17 @@ namespace MobileTracking.ViewModels
         }
         public async override Task InitializeAsync(object navigationData)
         {
-            _sharedOrderHub.OnOrderAdd += SharedOrderHub_OnOrderAdd;
+
             _initalizeBackgroundService.StartSyncOrders();
+
             var response = await _apiRequestService.MyOrdersAsync();
             if (response.IsSuccessStatusCode)
                 foreach (var pin in response.Content)
                 {
                     Pins.Add(new Pin() { Label = pin.Title, Address = pin.Title, Position = new Position(pin.Latitude, pin.Longitude) });
                 }
+
+            _sharedOrderHub.OnOrderAdd += SharedOrderHub_OnOrderAdd;
             await _sharedOrderHub.StartAsync();
         }
 
@@ -84,6 +87,12 @@ namespace MobileTracking.ViewModels
             {
 
             }
+        }
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task Disappearing()
+        {
+            _sharedOrderHub.OnOrderAdd -= SharedOrderHub_OnOrderAdd;
+            await _sharedOrderHub.StopAsync();
         }
         public async Task GoToCurrentLocation()
         {

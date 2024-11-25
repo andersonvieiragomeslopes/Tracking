@@ -7,6 +7,7 @@
              x:Class="MobileTracking.Pages.HomePage">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding DisappearingCommand}" EventName="Disappearing" />
     </ContentPage.Behaviors>
     <Border Padding="0,-50,-50,0" Margin="0,0,0,86" Grid.Row="0" VerticalOptions="FillAndExpand"
                   HorizontalOptions="FillAndExpand">
