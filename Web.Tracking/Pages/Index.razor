@@ -2,8 +2,11 @@
 @using Radzen
 @using Radzen.Blazor
 @using global::Shared.Models.DTOs.Records
+@using global::Shared.Models.DTOs.ViewModels
+@using global::Shared.Services.Requests
 
 @inject IOrderService orders;
+@inject IUserService users;
 @inject IJSRuntime JSRuntime
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
 
@@ -56,8 +59,18 @@
             <label class="form-label">UserId</label>
             <div class="row">
                 <div class="col-xl-12 mb-2">
-                    <input type="text" class="form-control" placeholder="UserId"
-                    aria-label="UserId" @bind="orderRecord.UserId">
+                    <select class="form-select" @bind="orderRecord.UserId">
+                        <option selected value="null">
+                            Select User
+                        </option>
+                        @if (userResponses != null)
+                        {
+                            @foreach (var user in userResponses)
+                            {
+                                <option value="@user.Id">@user.Id</option>
+                            }
+                        }
+                    </select>
                 </div>
             </div>
         </div>
@@ -186,6 +199,7 @@
     private RadzenGoogleMap map;
     private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
     private List<OrderResponse> OrderResponses = new List<OrderResponse>();
+    private List<UserResponse> userResponses = new List<UserResponse>();
     private OrderRecord orderRecord = new OrderRecord();
     private bool isLoading = true;
 
@@ -198,17 +212,30 @@
     {
         if (firstRender)
         {
-            await LoadOrdersAsync();
+            Parallel.Invoke(
+      async () => await LoadOrdersAsync(),
+      async () => await LoadUsersAsync()
+      );
+        }
+    }
+    public async Task LoadUsersAsync()
+    {
+        var response = await users.UsersAsync();
+        if(response.IsSuccessStatusCode)
+        {
+            userResponses = response?.Content;
+
         }
     }
     public async Task CreateOrderAsync()
     {
         var response = await orders.CreateOrderAsync(orderRecord);
         if (response.IsSuccessStatusCode)
-        {            
-            await LoadOrdersAsync();
+        {
+            await InvokeAsync(async () => { await LoadOrdersAsync(); StateHasChanged(); });
+            
 
-            StateHasChanged();
+            
         }
     }
     public async Task LoadOrdersAsync()

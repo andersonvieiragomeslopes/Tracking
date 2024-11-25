@@ -47,10 +47,11 @@ namespace MobileTracking.ViewModels
                 return;
             }
 
-            var response = await _apiRequestService.AuthAsync(Id.Value);
+            var response = await _apiRequestService.AuthAsync(Id!.Value);
             if (response.Token != null)
             {
                 await SecureStorage.SetAsync(Constants.AccessToken, response.Token);
+                await SecureStorage.SetAsync(Constants.Id, Id.ToString()!);
                 _navigationService.NavigateMainPage(MainPages.AppShell);
             }
 

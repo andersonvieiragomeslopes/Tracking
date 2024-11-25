@@ -9,6 +9,7 @@ namespace Shared.Mobile
     public static class Constants
     {
         public const string AccessToken = "tk";
+        public const string Id = "id";
         public static string BasePath = FileSystem.AppDataDirectory;
         public static string DatabasePath => Path.Combine(BasePath, "database.db");
         public static class Api

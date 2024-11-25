@@ -15,6 +15,7 @@ namespace Shared
             public const string ORDER_MY_ORDERS = "/orders/my-orders";
             public const string ORDERS = "/orders";
             public const string DRIVING = "/driving";
+            public const string USERS = "/users";
         }
     }
 }
