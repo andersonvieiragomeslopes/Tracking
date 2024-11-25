@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Radzen
 @using Radzen.Blazor
+@using global::Shared.Models.DTOs.Records
 
 @inject IOrderService orders;
 @inject IJSRuntime JSRuntime
@@ -14,15 +15,15 @@
 <div style="height: 50vh">
 
     <RadzenGoogleMap ApiKey="AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU" MapId="15b04a333dd20cd2" @ref="map" Style="height: 100%"
-                     Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
-                     MapClick="OnMapClick" MarkerClick="OnMarkerClick">
+    Zoom="4" Center="@(new GoogleMapPosition() { Lat = -14.2350, Lng = -51.9253 })"
+    MapClick="OnMapClick" MarkerClick="OnMarkerClick">
         <Markers>
             @if (!isLoading)
                 @foreach (var order in OrderResponses)
                 {
                     <RadzenGoogleMapMarker Title="@order.Title"
-                                           Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
-                                           MarkerClick="OnMarkerClick" />
+                    Position="@(new GoogleMapPosition() { Lat = order.Latitude, Lng = order.Longitude })"
+                    MarkerClick="OnMarkerClick" />
                 }
         </Markers>
     </RadzenGoogleMap>
@@ -35,19 +36,19 @@
         <div class="col-md-4 mb-2">
             <label class="form-label">Titulo</label>
             <input type="text" class="form-control" placeholder="Titulo"
-                   aria-label="Titulo">
+            aria-label="Titulo" @bind="orderRecord.Title">
         </div>
         <div class="col-md-4 mb-2">
             <label class="form-label">Descrição</label>
             <input type="text" class="form-control" placeholder="Descrição"
-                   aria-label="Descrição">
+            aria-label="Descrição" @bind="orderRecord.Description">
         </div>
         <div class="col-md-4 mb-2">
             <label class="form-label">Image</label>
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="Image"
-                           aria-label="Image">
+                    aria-label="Image" @bind="orderRecord.Image">
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="UserId"
-                           aria-label="UserId">
+                    aria-label="UserId" @bind="orderRecord.UserId">
                 </div>
             </div>
         </div>
@@ -65,7 +66,7 @@
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="Longitude"
-                           aria-label="Longitude">
+                    aria-label="Longitude" @bind="orderRecord.Longitude">
                 </div>
             </div>
         </div>
@@ -74,13 +75,13 @@
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="Latitude"
-                           aria-label="Latitude">
+                    aria-label="Latitude" @bind="orderRecord.Latitude">
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-12">
-        <button type="submit" class="btn btn-primary">Criar</button>
+        <button type="submit" class="btn btn-primary" @onclick='CreateOrderAsync'>Criar</button>
     </div>
 </div>
 
@@ -184,7 +185,8 @@
 @code {
     private RadzenGoogleMap map;
     private List<GoogleMapPosition> Points = new List<GoogleMapPosition>();
-    private List<OrderResponse> OrderResponses;
+    private List<OrderResponse> OrderResponses = new List<OrderResponse>();
+    private OrderRecord orderRecord = new OrderRecord();
     private bool isLoading = true;
 
     protected async override Task OnInitializedAsync()
@@ -196,12 +198,22 @@
     {
         if (firstRender)
         {
-            await LoadOrders();
+            await LoadOrdersAsync();
         }
     }
-
-    public async Task LoadOrders()
+    public async Task CreateOrderAsync()
     {
+        var response = await orders.CreateOrderAsync(orderRecord);
+        if (response.IsSuccessStatusCode)
+        {            
+            await LoadOrdersAsync();
+
+            StateHasChanged();
+        }
+    }
+    public async Task LoadOrdersAsync()
+    {
+        //
         var response = await orders.OrdersAsync();
         if (response.IsSuccessStatusCode)
         {
@@ -213,6 +225,8 @@
     }
     private async void OnMapClick(GoogleMapClickEventArgs args)
     {
+        orderRecord.Latitude = args.Position.Lat;
+        orderRecord.Longitude = args.Position.Lng;
         Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
     }
     private async Task OnMarkerClick(RadzenGoogleMapMarker marker)

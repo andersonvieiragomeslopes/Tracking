@@ -32,7 +32,7 @@ namespace Tracking.BusinessLogicLayer.Blls
         public async Task<List<OrderViewModel>> GetAll()
         {
             var result = await _orderDAL.GetAll();
-            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Image, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).ToList();
+            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Image, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).OrderByDescending(x=>x.UpdatedAt).ToList();
         } 
         public async Task<List<OrderViewModel>> GetMyOrders()
         {
