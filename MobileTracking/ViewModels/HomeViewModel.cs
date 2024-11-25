@@ -6,7 +6,9 @@ using MobileTracking.Services;
 using Shared.Extensions;
 using Shared.Mobile.Services;
 using Shared.Responses;
+using Shared.SharedHubs;
 using System.Collections.ObjectModel;
+using System.Net.NetworkInformation;
 
 namespace MobileTracking.ViewModels
 {
@@ -14,19 +16,22 @@ namespace MobileTracking.ViewModels
     {
         private readonly IInitalizeBackgroundService _initalizeBackgroundService;
         private readonly ILocationService _locationService;
+        private readonly ISharedOrderHub _sharedOrderHub;
         public ObservableCollection<Pin> Pins { get; set; }
         public ObservableCollection<Polyline> Polylines { get; set; }
         [ObservableProperty] public MapSpan visibleRegion;
         [ObservableProperty] private MoveCameraRequest moveCameraRequest;
         [ObservableProperty] private AnimateCameraRequest animateCameraRequest;
         [ObservableProperty] private MoveToRegionRequest moveToRegionRequest;
-        public HomeViewModel(INavigationService navigationService, IInitalizeBackgroundService initalizeBackgroundService, ILocationService locationService) : base(navigationService)
+        public HomeViewModel(INavigationService navigationService, IInitalizeBackgroundService initalizeBackgroundService, ILocationService locationService, ISharedOrderHub sharedOrderHub) : base(navigationService)
         {
             _initalizeBackgroundService = initalizeBackgroundService;
             _locationService = locationService;
+            _sharedOrderHub = sharedOrderHub;
         }
         public async override Task InitializeAsync(object navigationData)
         {
+            _sharedOrderHub.OnOrderAdd += SharedOrderHub_OnOrderAdd;
             _initalizeBackgroundService.StartSyncOrders();
             var response = await _apiRequestService.MyOrdersAsync();
             if (response.IsSuccessStatusCode)
@@ -34,7 +39,22 @@ namespace MobileTracking.ViewModels
                 {
                     Pins.Add(new Pin() { Label = pin.Title, Address = pin.Title, Position = new Position(pin.Latitude, pin.Longitude) });
                 }
+            await _sharedOrderHub.StartAsync();
         }
+
+        private async void SharedOrderHub_OnOrderAdd(object? sender, Guid orderId)
+        {
+            var response = await _apiRequestService.GetOrderAsync(orderId);
+            if (response.IsSuccessStatusCode)
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    var pin = response?.Content;
+                    Pins.Add(new Pin() { Label = pin.Title, Address = pin.Title, Position = new Position(pin.Latitude, pin.Longitude) });
+                });
+            }
+        }
+
         [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task Appearing()
         {
@@ -80,8 +100,8 @@ namespace MobileTracking.ViewModels
         public async Task PinClickedTo(PinClickedEventArgs e)
         {
             e.Handled = true;
-            if(!e.Pin.Label.Equals("Me"))
-            await GetRoute(e.Pin);
+            if (!e.Pin.Label.Equals("Me"))
+                await GetRoute(e.Pin);
         }
         [RelayCommand]
         public async Task GetRoute(Pin pin)
@@ -159,7 +179,7 @@ namespace MobileTracking.ViewModels
                 await AnimateCameraRequest.AnimateCamera(CameraUpdateFactory.NewCameraPosition(cameraPosition), TimeSpan.FromSeconds(2));
             }
             catch (Exception ex)//prevenir possíveis crashs na animação
-            {                
+            {
                 IsBusy = false;
             }
 

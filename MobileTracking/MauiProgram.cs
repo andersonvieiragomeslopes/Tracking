@@ -16,6 +16,8 @@ using Mopups.Interfaces;
 using Mopups.Services;
 using Shared.Mobile.Repositories;
 using Controls.UserDialogs.Maui;
+using Shared.SharedHubs;
+
 
 
 
@@ -67,6 +69,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddScoped<HeaderTokenHandler>();
         var apiData = Constants.Api.BASE_URL;
 
+        mauiAppBuilder.Services.AddSingleton<ISharedOrderHub, SharedOrderHub>();
         mauiAppBuilder.Services.AddSingleton<IApiRequestService, ApiRequestService>();
         mauiAppBuilder.Services.AddSingleton<INavigationService, NavigationService>();
         mauiAppBuilder.Services.AddSingleton<ILocationService, LocationService>();

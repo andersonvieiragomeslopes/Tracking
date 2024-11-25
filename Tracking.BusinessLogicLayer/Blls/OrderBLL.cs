@@ -1,10 +1,12 @@
-﻿using Shared.Models.DTOs.Records;
+﻿using Microsoft.AspNetCore.SignalR;
+using Shared.Models.DTOs.Records;
 using Shared.Models.DTOs.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tracking.BusinessLogicLayer.Hubs;
 using Tracking.DataAccessLayer.Dals;
 using Tracking.DataAccessLayer.Entities;
 
@@ -22,12 +24,13 @@ namespace Tracking.BusinessLogicLayer.Blls
         private readonly IOrderDAL _orderDAL;
         private readonly IUserBLL _userBLL;
         private readonly IAuthBLL _authBLL;
-
-        public OrderBLL(IOrderDAL orderDAL, IUserBLL userBLL, IAuthBLL authBLL)
+        private readonly IHubContext<OrderHub> _hubContext;
+        public OrderBLL(IOrderDAL orderDAL, IUserBLL userBLL, IAuthBLL authBLL, IHubContext<OrderHub> hubContext)
         {
             _orderDAL = orderDAL;
             _userBLL = userBLL;
             _authBLL = authBLL;
+            _hubContext = hubContext;
         }
         public async Task<List<OrderViewModel>> GetAll()
         {
@@ -43,6 +46,8 @@ namespace Tracking.BusinessLogicLayer.Blls
         public async Task<OrderViewModel> Get(Guid id)
         {
             var result = await _orderDAL.Get(id);
+            if (result == null)
+                throw new Exception("Order not found.");
             return new OrderViewModel(result.Id, result.UserId, result.Title, result.Description, result.Image, result.Latitude, result.Longitude, result.CreatedAt, result.UpdatedAt);
         }
        
@@ -51,7 +56,7 @@ namespace Tracking.BusinessLogicLayer.Blls
             var user = await _userBLL.Get(orderRecord.UserId);
             if (user == null)
                 throw new Exception("User not found.");
-            return await _orderDAL.Create(new Order
+            var order = new Order
             {
                 Image = orderRecord.Image,
                 Description = orderRecord.Description,
@@ -59,7 +64,13 @@ namespace Tracking.BusinessLogicLayer.Blls
                 UserId = orderRecord.UserId,
                 Longitude = orderRecord.Longitude,
                 Latitude = orderRecord.Latitude
-            });
+            };
+
+
+                
+            var id = await _orderDAL.Create(order);
+            await _hubContext.Clients.All.SendAsync("NewOrder", id);
+            return id;
         }
     }
 }

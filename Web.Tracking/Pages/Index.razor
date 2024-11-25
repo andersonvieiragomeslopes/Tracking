@@ -4,10 +4,12 @@
 @using global::Shared.Models.DTOs.Records
 @using global::Shared.Models.DTOs.ViewModels
 @using global::Shared.Services.Requests
+@using global::Shared.SharedHubs
 
 @inject IOrderService orders;
 @inject IUserService users;
 @inject IAddressService address;
+@inject ISharedOrderHub orderHub;
 @inject IJSRuntime JSRuntime
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
 
@@ -214,10 +216,12 @@
     {
         if (firstRender)
         {
-            Parallel.Invoke(
-      async () => await LoadOrdersAsync(),
-      async () => await LoadUsersAsync()
-      );
+            Parallel.Invoke
+            (
+              async () => await LoadOrdersAsync(),
+              async () => await orderHub.StartAsync(),
+              async () => await LoadUsersAsync()
+            );
         }
     }
     public async Task LoadUsersAsync()

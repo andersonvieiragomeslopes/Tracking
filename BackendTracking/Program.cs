@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Tracking.BusinessLogicLayer.Hubs;
 using Tracking.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,12 +50,17 @@ var app = builder.Build();
 //    app.UseSwagger();
 //    app.UseSwaggerUI();
 //}
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//    endpoints.MapHub<OrderHub>("/orders");
+//});
+app.MapHub<OrderHub>("/orders");
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseRateLimiter();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

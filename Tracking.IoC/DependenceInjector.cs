@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Tracking.BusinessLogicLayer.Blls;
+using Tracking.BusinessLogicLayer.Hubs;
 using Tracking.BusinessLogicLayer.Services;
 using Tracking.DataAccessLayer;
 using Tracking.DataAccessLayer.Dals;
@@ -23,7 +24,7 @@ namespace Tracking.IoC
         public static void Register(IServiceCollection services, IConfigurationManager configuration)
         {
             services.AddDbContext<TrackingContext>();
-
+            services.AddSignalR();
             //https://www.milanjovanovic.tech/blog/how-to-use-rate-limiting-in-aspnet-core
 
             services.AddRateLimiter(rateLimiterOptions =>
@@ -59,6 +60,7 @@ namespace Tracking.IoC
                         ClockSkew = TimeSpan.Zero
                     });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<OrderHub>();
             services.AddScoped<IAuthBLL, AuthBLL>();
 
             services.AddScoped<IOrderDAL, OrderDAL>();

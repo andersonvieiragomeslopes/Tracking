@@ -15,6 +15,7 @@ namespace Shared.Mobile.Services
         Task<TokenDTO> AuthAsync(Guid id);
         Task<Guid> GenerateUserAsync();
         Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore = false);
+        Task<ApiRequestResponse<OrderResponse>> GetOrderAsync(Guid orderId);
         Task<ApiRequestResponse<RouteResponse>> DrivingAsync(PositionResponse positionResponse);
 
     }
@@ -54,6 +55,14 @@ namespace Shared.Mobile.Services
                 if (response.IsSuccessStatusCode)
                     _cacheService.Set(cacheKey, response.Content, GeneralCacheHours);
                 return new ApiRequestResponse<IEnumerable<OrderResponse>>(response.IsSuccessStatusCode, response?.Content);
+            });
+        }
+        public async Task<ApiRequestResponse<OrderResponse>> GetOrderAsync(Guid orderId)
+        {
+            return await RequestWithPolicy(async () =>
+            {
+                var response = await _orderService.GetOrderAsync(orderId);               
+                return new ApiRequestResponse<OrderResponse>(response.IsSuccessStatusCode, response?.Content);
             });
         }
         public async Task<ApiRequestResponse<RouteResponse>> DrivingAsync(PositionResponse positionResponse)

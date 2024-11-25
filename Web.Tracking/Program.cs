@@ -4,6 +4,7 @@ using Radzen;
 using Refit;
 using Shared.Mobile.Services.Requests;
 using Shared.Services.Requests;
+using Shared.SharedHubs;
 using Web.Tracking.Services.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddRadzenComponents();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTransient<AuthTokenHandler>();
+builder.Services.AddSingleton<ISharedOrderHub, SharedOrderHub>();
 var url = new Uri(builder.Configuration["BackendUrl"]!);
 builder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = url);
 builder.Services.AddRefitClient<IUserService>().ConfigureHttpClient(c => c.BaseAddress = url);
