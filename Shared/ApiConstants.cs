@@ -16,6 +16,7 @@ namespace Shared
             public const string ORDERS = "/orders";
             public const string DRIVING = "/driving";
             public const string USERS = "/users";
+            public const string ADDRESS = "/address";
         }
     }
 }

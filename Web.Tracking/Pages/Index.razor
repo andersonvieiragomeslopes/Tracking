@@ -7,6 +7,7 @@
 
 @inject IOrderService orders;
 @inject IUserService users;
+@inject IAddressService address;
 @inject IJSRuntime JSRuntime
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAisDeAVHjd1-EYV45_vlm4pAMprLWFmYU&language=pt&libraries=marker"></script>
 
@@ -47,10 +48,10 @@
             aria-label="Descrição" @bind="orderRecord.Description">
         </div>
         <div class="col-md-4 mb-2">
-            <label class="form-label">Image</label>
+            <label class="form-label">Endereço</label>
             <div class="row">
                 <div class="col-xl-12 mb-2">
-                    <input type="text" class="form-control" placeholder="Image"
+                    <input type="text" class="form-control" placeholder="Endereço"
                     aria-label="Image" @bind="orderRecord.Image">
                 </div>
             </div>
@@ -202,6 +203,7 @@
     private List<UserResponse> userResponses = new List<UserResponse>();
     private OrderRecord orderRecord = new OrderRecord();
     private bool isLoading = true;
+    private bool isBusy = false;
 
     protected async override Task OnInitializedAsync()
     {
@@ -233,9 +235,9 @@
         if (response.IsSuccessStatusCode)
         {
             await InvokeAsync(async () => { await LoadOrdersAsync(); StateHasChanged(); });
-            
 
-            
+
+
         }
     }
     public async Task LoadOrdersAsync()
@@ -251,9 +253,22 @@
     }
     private async void OnMapClick(GoogleMapClickEventArgs args)
     {
+        if (isBusy)
+            return;
+        isBusy = true;
         orderRecord.Latitude = args.Position.Lat;
         orderRecord.Longitude = args.Position.Lng;
+        var response = await address.AddressAsync(args.Position.Lat, args.Position.Lng);
+        if(response.IsSuccessStatusCode)
+        {
+            var ad = response?.Content;
+            orderRecord.Title = ad.Name;            
+            orderRecord.Description = ad.DisplayName;            
+            orderRecord.Image = ad.Address.Road; 
+            StateHasChanged();
+        }
         Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
+        isBusy = false;
     }
     private async Task OnMarkerClick(RadzenGoogleMapMarker marker)
     {

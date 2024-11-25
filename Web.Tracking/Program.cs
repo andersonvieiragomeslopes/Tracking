@@ -16,6 +16,7 @@ builder.Services.AddTransient<AuthTokenHandler>();
 var url = new Uri(builder.Configuration["BackendUrl"]!);
 builder.Services.AddRefitClient<IAuthService>().ConfigureHttpClient(c => c.BaseAddress = url);
 builder.Services.AddRefitClient<IUserService>().ConfigureHttpClient(c => c.BaseAddress = url);
+builder.Services.AddRefitClient<IAddressService>().ConfigureHttpClient(c => c.BaseAddress = url).AddHttpMessageHandler<AuthTokenHandler>();
 builder.Services.AddRefitClient<IOrderService>().ConfigureHttpClient(c => c.BaseAddress = url).AddHttpMessageHandler<AuthTokenHandler>();
 var app = builder.Build();
 

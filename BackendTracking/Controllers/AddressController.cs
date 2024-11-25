@@ -10,7 +10,7 @@ using Tracking.BusinessLogicLayer.Services;
 namespace BackendTracking.Controllers
 {
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/")]
     public class AddressController : ControllerBase
     {
