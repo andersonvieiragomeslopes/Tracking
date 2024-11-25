@@ -240,7 +240,6 @@
     }
     public async Task LoadOrdersAsync()
     {
-        //
         var response = await orders.OrdersAsync();
         if (response.IsSuccessStatusCode)
         {

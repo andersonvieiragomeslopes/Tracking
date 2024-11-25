@@ -42,6 +42,10 @@ namespace Tracking.IoC
             services.AddHttpClient<IDrivingService, DrivingService>(client =>
             {
                 client.BaseAddress = new Uri(configuration["osrmApi"]);
+            }); 
+            services.AddHttpClient<ISearchAddressService, SearchAddressService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["addressApi"]);
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
