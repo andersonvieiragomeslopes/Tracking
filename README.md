@@ -12,3 +12,5 @@ usuários podem ser associados a uma ordem de serviços e com isso, poderam aten
 
 
 Backend - referencia de boas práticas: https://github.com/EduardoPires/EquinoxProject
+
+ios - https://github.com/dotnet/maui/issues/25904
