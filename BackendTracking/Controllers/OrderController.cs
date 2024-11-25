@@ -58,6 +58,43 @@ namespace BackendTracking.Controllers
                 })));
             }
         }
+        [HttpGet("v1/orders/{id}")]
+        public async Task<ActionResult> GetOrder(Guid id)
+        {
+            try
+            {
+                var orders = await _orderBLL.Get(id);
+                return Ok(orders);
+            }
+            catch (KeyNotFoundException error)
+            {
+                return NotFound(new Response<string>(StatusCodes.Status404NotFound,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (DbUpdateException error)
+            {
+                return UnprocessableEntity(new Response<string>(StatusCodes.Status422UnprocessableEntity,
+                    JsonSerializer.Serialize(new
+                    {
+                        error.Message,
+                        error.Source
+                    })));
+            }
+            catch (Exception error)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response<string>(StatusCodes.Status500InternalServerError,
+                JsonSerializer.Serialize(new
+                {
+                    error.Message,
+                    error.Source
+                })));
+            }
+        }
         [HttpPost("v1/orders")]
         public async Task<ActionResult> Orders(OrderRecord orderRecord)
         {
