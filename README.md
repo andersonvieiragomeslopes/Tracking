@@ -8,7 +8,7 @@ As ordens de serviço aparecem em tempo real no mapa do mobile quando criadas pe
 Os principais problemas relatados pelos usuários nas lojas são: "o app consome muita bateria", "o endereço não é preciso e faz a gente gastar combustivel".
 
 
-Apesar de não conseguir efetuar login, identifiquei um problema, o app parece fazer algum tipo de trabalho em segundo plano de forma desnecessária, afinal, sou um usuário não autenticado no sistema, mas ainda assim, recebo a notificação.
+Apesar de não conseguir efetuar login no app da empresa, identifiquei um problema, o app parece fazer algum tipo de trabalho em segundo plano de forma desnecessária, afinal, sou um usuário não autenticado no sistema, mas ainda assim, recebo a notificação.
 
 
 Será implementada uma api que gera usuários anonimos
