@@ -27,6 +27,7 @@ As funcionalidades incluem:
    - Paralelismo em pontos críticos no web.
    - **Entity Framework** com SQLite para armazenamento local.
    - Política de retry para garantir estabilidade das requisições.
+   - Política de bloqueio a requisições excessivas para manter a estabilidade do backend.
    - Monkey cache para armazenamento dos requests e um banco sqlite para salvar local os resultados. 
 
 4. **Comunicação em Tempo Real**:
