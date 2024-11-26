@@ -8,6 +8,7 @@ usuários podem ser associados a uma ordem de serviços e com isso, poderao aten
 
 
 Workamanger e BGtaskScheduler para melhorar a eficiencia de bateria e garantir que as requisições sejam efetuadas corretamente respeitando as condições de internet, bateria e outros relacionados ao projeto.
+
 Paralelismo em alguns pontos do web para melhorar a performance de carregamento de alguns itens na tela.
 
 
