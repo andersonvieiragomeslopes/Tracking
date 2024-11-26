@@ -4,7 +4,7 @@
 O projeto é um protótipo de **"Gestão de Ordens de Serviço e Navegação dentro dos prestadores dentro do app"**, com o objetivo de solucionar problemas de navegação e eficiência no fluxo de trabalho, focado nas críticas mais frequentes do app **Auvo** no Google Play.
 
 As funcionalidades incluem:
-- **Ordens de Serviço em Tempo Real**: Exibidas no mapa do mobile quando criadas pelo painel web, para maior agilidade.
+- **Ordens de Serviço em Tempo Real**: Exibidas em tempo real no mapa do mobile quando criadas pelo painel web.
 - **Sistema de Roteirização**: Similar ao Uber ou 99, indicando o percurso que o técnico deve realizar.
 - **Problemas Resolvidos**:
   - Consumo excessivo de bateria.
