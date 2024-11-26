@@ -11,7 +11,7 @@
         <Border>
                 <handlers:BorderlessEntry Placeholder="Entrar" Text="{Binding Id}"></handlers:BorderlessEntry>
         </Border>
-                <Button Text="Criar conta" Command="{Binding LoginCommand}"/>
+                <Button Text="Entrar" Command="{Binding LoginCommand}"/>
 
         </VerticalStackLayout>
         <VerticalStackLayout VerticalOptions="End">

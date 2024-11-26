@@ -9,7 +9,7 @@ namespace Tracking.DataAccessLayer.Entities
     public class Order : ModelBase
     {
         public string Title { get; set; } = null!;
-        public string Image { get; set; } = null!;
+        public string Address { get; set; } = null!;
         public string? Description { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }

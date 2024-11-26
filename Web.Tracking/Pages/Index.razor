@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="Endereço"
-                    aria-label="Image" @bind="orderRecord.Image">
+                           aria-label="Address" @bind="orderRecord.Address">
                 </div>
             </div>
         </div>
@@ -227,6 +227,7 @@
               async () => await orderHub.StartAsync(),
               async () => await LoadUsersAsync()
             );
+            StateHasChanged();
             UriHelper.LocationChanged += DetectNavigation;
 
         }
@@ -245,7 +246,7 @@
         var response = await orders.CreateOrderAsync(orderRecord);
         if (response.IsSuccessStatusCode)
         {
-            await InvokeAsync(async () => { await LoadOrdersAsync(); StateHasChanged(); });
+            await InvokeAsync(async () => { await LoadOrdersAsync();});
 
 
 
@@ -275,7 +276,7 @@
             var ad = response?.Content;
             orderRecord.Title = ad.Name;            
             orderRecord.Description = ad.DisplayName;            
-            orderRecord.Image = ad.Address.Road; 
+            orderRecord.Address = ad.Address.Road; 
             StateHasChanged();
         }
         Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");

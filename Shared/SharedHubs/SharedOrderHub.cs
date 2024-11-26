@@ -32,7 +32,6 @@ namespace Shared.SharedHubs
             _connection.On<Guid>("NewOrder", NewOrder);
             _connection.Closed += async (error) =>
             {
-               // await Task.Delay(new Random().Next(0, 5) * 1000);
                 
             };
             _connection.Reconnecting += Connection_Reconnecting;

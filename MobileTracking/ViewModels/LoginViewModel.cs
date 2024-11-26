@@ -25,7 +25,7 @@ namespace MobileTracking.ViewModels
         public LoginViewModel(INavigationService navigationService) : base(navigationService)
         {
 #if DEBUG
-            Id = Guid.Parse("d36d3758-8cb8-440c-a68a-5170e9d555c4");
+            Id = Guid.Parse("38b5e825-63f2-456b-8095-a960f709575e");
 #endif
         }
         public override Task InitializeAsync(object navigationData)
