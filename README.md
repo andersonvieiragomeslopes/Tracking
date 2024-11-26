@@ -1,35 +1,66 @@
-Objetivos do projeto:
+## Objetivos do Projeto
 
-Descrição Técnica do Projeto
-O projeto é um protótipo de "Gestão de Ordens de Serviço e Navegação dentro dos prestadores dentro do app", com o objetivo de solucionar problemas de navegação e eficiência no fluxo de trabalho, focado nas críticas mais frequentes do app Auvo no google play.
+### Descrição Técnica do Projeto
+O projeto é um protótipo de **"Gestão de Ordens de Serviço e Navegação dentro dos prestadores dentro do app"**, com o objetivo de solucionar problemas de navegação e eficiência no fluxo de trabalho, focado nas críticas mais frequentes do app **Auvo** no Google Play.
 
-As ordens de serviço aparecem em tempo real no mapa do mobile quando criadas pelo painel web para que os tecnicos tenham agilidade no trabalho no mobile e um sistema de routeirização (estilo uber, 99 e outros) é feito no mapa com o percurso que o técnico deve fazer. 
+As funcionalidades incluem:
+- **Ordens de Serviço em Tempo Real**: Exibidas no mapa do mobile quando criadas pelo painel web, para maior agilidade.
+- **Sistema de Roteirização**: Similar ao Uber ou 99, indicando o percurso que o técnico deve realizar.
+- **Problemas Resolvidos**:
+  - Consumo excessivo de bateria.
+  - Endereços imprecisos que aumentam custos com combustível.
 
-Os principais problemas relatados pelos usuários nas lojas são: "o app consome muita bateria", "o endereço não é preciso e faz a gente gastar combustivel".
+---
 
+### Principais Implementações Técnicas
 
-Apesar de não conseguir efetuar login no app da empresa, identifiquei um problema, o app parece fazer algum tipo de trabalho em segundo plano de forma desnecessária, afinal, sou um usuário não autenticado no sistema, mas ainda assim, recebo a notificação.
+1. **API para Usuários Anônimos**:
+   - Associados a ordens de serviço.
+   - Integração com APIs gratuitas de geolocalização para endereços exatos e roteirização.
 
+2. **Gerenciamento de Tarefas em Background**:
+   - Uso de `WorkManager` e `BGTaskScheduler`:
+     - Melhor eficiência de bateria.
+     - Respeito às condições de internet e nível de bateria.
 
-Será implementada uma api que gera usuários anonimos
-usuários podem ser associados a uma ordem de serviços e com isso, poderao atender a demanda em campo com o uso de geolocalização, o endereço exato será devolvido ao usuário via api's gratuitas de endereço e roteirização para o mapa. 
+3. **Aprimoramento de Performance**:
+   - Paralelismo em pontos críticos no web.
+   - **Entity Framework** com SQLite para armazenamento local.
+   - Política de retry para garantir estabilidade das requisições.
+   - Monkey cache para armazenamento dos requests e um banco sqlite para salvar local os resultados. 
 
+4. **Comunicação em Tempo Real**:
+   - Uso de `SignalR` para atualizações instantâneas.
 
-Workamanger e BGtaskScheduler para melhorar a eficiencia de bateria e garantir que as requisições sejam efetuadas corretamente respeitando as condições de internet, bateria e outros relacionados ao projeto.
+5. **Interface de Navegação**:
+   - Página de navegação com abas.
+   - Reaproveitamento máximo de código entre web, mobile e API.
 
-Paralelismo em alguns pontos do web para melhorar a performance de carregamento de alguns itens na tela.
+---
 
-Entity framework com sqlite
+### Visualizações do Projeto
 
-Politica de retry nos requests
+#### Mobile
+<div style="display: flex; justify-content: space-between; margin-top: 10px;">
+  <img src="https://github.com/user-attachments/assets/d1e3d65a-36c5-4263-af28-3c18d7bf954f" alt="Mobile Image 1" width="45%" />
+  <img src="https://github.com/user-attachments/assets/32ef5515-9667-4056-a380-a89c9fb0c250" alt="Mobile Image 2" width="45%" />
+</div>
 
-Signalr.
+---
 
-Navigation page com tabs
+#### Backend
+<img src="https://github.com/user-attachments/assets/d5a16d85-c21d-4f12-819d-dce28f3c2873" alt="Backend Image" width="100%" />
 
-Reaproveitamente máximo de código entre web, mobile e api.
+---
 
+#### Web Admin
+<img src="https://github.com/user-attachments/assets/1db57b56-50fa-4cf7-b321-d57b05c9d960" alt="Web Admin Image" width="100%" />
 
-Backend - referencia de boas práticas: https://github.com/EduardoPires/EquinoxProject
+---
 
-Um problema local com o iOS impediu os testes, sendo necessário formatar o mac para conseguir efetuar o debug corretamente. - https://github.com/dotnet/maui/issues/25904
+### Referências e Observações
+
+- **Boas Práticas no Backend**: [Equinox Project - Eduardo Pires](https://github.com/EduardoPires/EquinoxProject)
+- **Problema com iOS**:
+  - Um erro local impediu os testes no iOS devido a um problema com o MAUI. A solução exigiu a formatação do Mac. 
+  - Mais detalhes: [Issue #25904 no repositório .NET MAUI](https://github.com/dotnet/maui/issues/25904)
