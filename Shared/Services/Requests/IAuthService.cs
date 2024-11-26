@@ -12,7 +12,7 @@ namespace Shared.Mobile.Services.Requests
     public interface IAuthService
     {
         [Post(ApiConstants.ApiRoutes.USER_REGENERATE_USER)]
-        Task<Guid> GenerateUserAsync();
+        Task<ApiRequestResponse<Guid>> GenerateUserAsync();
         [Post(ApiConstants.ApiRoutes.AUTH_LOGIN)]
         Task<TokenDTO> AuthAsync(Guid id);
     }    

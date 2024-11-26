@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="MobileTracking.Pages.ActionAlertPopup"
+                  xmlns:Mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  xmlns:Animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+                  BackgroundColor="#90000000"
+                  Opacity="0.5"
+                  BackgroundInputTransparent="False"
+                  CloseWhenBackgroundIsClicked="True"
+                  HasSystemPadding="False">
+    <Mopups:PopupPage.Animation>
+        <Animations:MoveAnimation 
+            DurationIn="400" 
+            DurationOut="400" 
+            PositionIn="Bottom" 
+            PositionOut="Bottom"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </Mopups:PopupPage.Animation>
+    <Border Background="Red" VerticalOptions="End">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20,20,0,0" />
+        </Border.StrokeShape>
+        <Grid            
+            Padding="20,30"
+            RowDefinitions="Auto,Auto,Auto,Auto"
+            RowSpacing="16" 
+            Margin="0,0,0,50"
+            VerticalOptions="Center">
+            <Label 
+                x:Name="titleLabel"
+                Grid.Row="0"             
+                FontAttributes="Bold"             
+                HorizontalOptions="Center"             
+                TextColor="{DynamicResource White}"
+                Text="OOPS!" />
+
+            <Label 
+                Grid.Row="1"
+                FontFamily="FaRegular"
+                FontSize="60"
+                HorizontalOptions="Center"
+                Text="X"
+                TextColor="{DynamicResource White}"
+                VerticalOptions="Center" />
+
+            <Label 
+                x:Name="description"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="" />
+
+            <Button 
+                x:Name="cancelButton"
+                Grid.Row="3"
+                BackgroundColor="{DynamicResource White}"
+                Clicked="GoBack_Clicked"
+                CornerRadius="14"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                Text="OK"
+                TextColor="Red"
+                WidthRequest="200" />
+        </Grid>
+    </Border>
+</Mopups:PopupPage>

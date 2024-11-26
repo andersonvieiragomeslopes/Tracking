@@ -9,7 +9,7 @@
 
         <VerticalStackLayout VerticalOptions="Center">
         <Border>
-                <handlers:BorderlessEntry Placeholder="Entrar" Text="{Binding Id}"></handlers:BorderlessEntry>
+                <handlers:BorderlessEntry Placeholder="Id de usuário." Text="{Binding Id}"></handlers:BorderlessEntry>
         </Border>
                 <Button Text="Entrar" Command="{Binding LoginCommand}"/>
 
