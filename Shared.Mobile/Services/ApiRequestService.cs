@@ -13,7 +13,7 @@ namespace Shared.Mobile.Services
     public interface IApiRequestService
     {
         Task<TokenDTO> AuthAsync(Guid id);
-        Task<Guid> GenerateUserAsync();
+        Task<ApiRequestResponse<Guid>> GenerateUserAsync();
         Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore = false);
         Task<ApiRequestResponse<OrderResponse>> GetOrderAsync(Guid orderId);
         Task<ApiRequestResponse<RouteResponse>> DrivingAsync(PositionResponse positionResponse);
@@ -37,7 +37,7 @@ namespace Shared.Mobile.Services
         }
         public async Task<TokenDTO> AuthAsync(Guid id) =>
             await _authService.AuthAsync(id);        
-        public async Task<Guid> GenerateUserAsync() =>
+        public async Task<ApiRequestResponse<Guid>> GenerateUserAsync() =>
             await _authService.GenerateUserAsync();        
         
         public async Task<ApiRequestResponse<IEnumerable<OrderResponse>>> MyOrdersAsync(bool cacheIgnore)

@@ -5,7 +5,7 @@
 @using global::Shared.Models.DTOs.ViewModels
 @using global::Shared.Services.Requests
 @using global::Shared.SharedHubs
-
+@inject NavigationManager UriHelper;
 @inject IOrderService orders;
 @inject IUserService users;
 @inject IAddressService address;
@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-xl-12 mb-2">
                     <input type="text" class="form-control" placeholder="Endereço"
-                    aria-label="Image" @bind="orderRecord.Image">
+                           aria-label="Address" @bind="orderRecord.Address">
                 </div>
             </div>
         </div>
@@ -210,6 +210,11 @@
     protected async override Task OnInitializedAsync()
     {
 
+    }
+    private async void DetectNavigation(object sender, LocationChangedEventArgs e)
+    {
+        UriHelper.LocationChanged -= DetectNavigation;
+        await orderHub.StopAsync();
 
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -222,6 +227,9 @@
               async () => await orderHub.StartAsync(),
               async () => await LoadUsersAsync()
             );
+            StateHasChanged();
+            UriHelper.LocationChanged += DetectNavigation;
+
         }
     }
     public async Task LoadUsersAsync()
@@ -238,7 +246,7 @@
         var response = await orders.CreateOrderAsync(orderRecord);
         if (response.IsSuccessStatusCode)
         {
-            await InvokeAsync(async () => { await LoadOrdersAsync(); StateHasChanged(); });
+            await InvokeAsync(async () => { await LoadOrdersAsync();});
 
 
 
@@ -268,7 +276,7 @@
             var ad = response?.Content;
             orderRecord.Title = ad.Name;            
             orderRecord.Description = ad.DisplayName;            
-            orderRecord.Image = ad.Address.Road; 
+            orderRecord.Address = ad.Address.Road; 
             StateHasChanged();
         }
         Console.WriteLine($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");

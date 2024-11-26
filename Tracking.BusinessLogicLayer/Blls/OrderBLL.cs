@@ -35,20 +35,20 @@ namespace Tracking.BusinessLogicLayer.Blls
         public async Task<List<OrderViewModel>> GetAll()
         {
             var result = await _orderDAL.GetAll();
-            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Image, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).OrderByDescending(x=>x.UpdatedAt).ToList();
+            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Address, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).OrderByDescending(x=>x.UpdatedAt).ToList();
         } 
         public async Task<List<OrderViewModel>> GetMyOrders()
         {
             var userLogged = await _authBLL.Logged();
             var result = await _orderDAL.GetOrderByUserId(userLogged.Id);
-            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Image, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).ToList();
+            return result.Select(x => new OrderViewModel(x.Id, x.UserId, x.Title, x.Description, x.Address, x.Latitude, x.Longitude, x.CreatedAt, x.UpdatedAt)).ToList();
         }
         public async Task<OrderViewModel> Get(Guid id)
         {
             var result = await _orderDAL.Get(id);
             if (result == null)
                 throw new Exception("Order not found.");
-            return new OrderViewModel(result.Id, result.UserId, result.Title, result.Description, result.Image, result.Latitude, result.Longitude, result.CreatedAt, result.UpdatedAt);
+            return new OrderViewModel(result.Id, result.UserId, result.Title, result.Description, result.Address, result.Latitude, result.Longitude, result.CreatedAt, result.UpdatedAt);
         }
        
         public async Task<Guid> Create(OrderRecord orderRecord)
@@ -58,7 +58,7 @@ namespace Tracking.BusinessLogicLayer.Blls
                 throw new Exception("User not found.");
             var order = new Order
             {
-                Image = orderRecord.Image,
+                Address = orderRecord.Address,
                 Description = orderRecord.Description,
                 Title = orderRecord.Title,
                 UserId = orderRecord.UserId,

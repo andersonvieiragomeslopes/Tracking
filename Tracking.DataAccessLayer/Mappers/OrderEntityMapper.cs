@@ -20,8 +20,8 @@ namespace Tracking.DataAccessLayer.Mappers
             builder.Property(x => x.Description)
                 .HasColumnName("Description")
                 .IsRequired(false);
-            builder.Property(x => x.Image)
-                .HasColumnName("Image")
+            builder.Property(x => x.Address)
+                .HasColumnName("Address")
                 .IsRequired();
             builder.Property(x => x.Latitude)
                 .HasColumnName("Latitude")

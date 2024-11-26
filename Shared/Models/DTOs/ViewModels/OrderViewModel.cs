@@ -8,11 +8,11 @@ namespace Shared.Models.DTOs.ViewModels
 {
     public class OrderViewModel : ModelBaseViewModel
     {
-        public OrderViewModel(Guid id, Guid? userId, string title, string? description, string image, double latitude, double longitude, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt)
+        public OrderViewModel(Guid id, Guid? userId, string title, string? description, string address, double latitude, double longitude, DateTime createdAt, DateTime updatedAt) : base(id, createdAt, updatedAt)
         {
             UserId = userId;
             Title = title;
-            Image = image;
+            Address = address;
             Description = description;
             Latitude = latitude;
             Longitude = longitude;
@@ -20,7 +20,7 @@ namespace Shared.Models.DTOs.ViewModels
         }
         public Guid? UserId { get; set; }
         public string Title { get; set; }
-        public string Image { get; set; }
+        public string Address { get; set; }
         public string? Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

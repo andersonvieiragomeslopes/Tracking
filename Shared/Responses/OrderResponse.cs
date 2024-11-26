@@ -12,8 +12,8 @@ namespace Shared.Responses
         [JsonProperty("title")]
         public string? Title { get; set; }
 
-        [JsonProperty("image")]
-        public string? Image { get; set; }
+        [JsonProperty("address")]
+        public string? Address { get; set; }
 
         [JsonProperty("description")]
         public string? Description { get; set; }

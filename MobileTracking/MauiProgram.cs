@@ -17,6 +17,8 @@ using Mopups.Services;
 using Shared.Mobile.Repositories;
 using Controls.UserDialogs.Maui;
 using Shared.SharedHubs;
+using MobileTracking.Interfaces;
+
 
 
 
@@ -79,6 +81,11 @@ public static class MauiProgram
 
         mauiAppBuilder.Services.AddSingleton<IOrdersRepository, OrdersRepository>();
         mauiAppBuilder.Services.AddSingleton<ICacheService, CacheService>();
+
+
+
+
+        mauiAppBuilder.Services.AddSingleton<IActionAlertPopup, ActionAlertPopup>();
 
 
         #region Refit
